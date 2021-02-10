@@ -1,0 +1,2 @@
+module AdminChatsHelper
+end

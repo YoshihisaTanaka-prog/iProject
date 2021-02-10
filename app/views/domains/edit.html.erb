@@ -1,0 +1,43 @@
+<%= params["msg"] %>
+<%= form_tag autho_domain_update_path do %>
+    <table>
+        <tr>
+            <th>ドメイン</th><th>大学名（正式名称）</th><th>大学名（略称）</th>
+        </tr>
+        <tr>
+            <td><%= text_field_tag "dom", @domain %></td>
+            <td><%= text_field_tag "collage", @collage %></td>
+            <td><%= text_field_tag "shortenCollege", @shortenCollege %></td>
+        </tr>
+    </table>
+    <%= hidden_field_tag "all", "a" %>
+    <%= submit_tag("編集") %>
+<% end %>
+
+<table>
+    <tr>
+    <th>都道府県リスト</th><th></th>    
+    </tr>
+    <% @objects.each do |o| %>
+    <tr>
+        <%= form_tag autho_domain_update_path do %>
+            <td><%= text_field_tag "prefecture", o.prefecture %></td>
+            <td><%= submit_tag("編集") %></td>
+            <%= hidden_field_tag "dom", @domain %>
+            <%= hidden_field_tag "collage", @collage %>
+            <%= hidden_field_tag "shortenCollege", @shortenCollege %>
+            <%= hidden_field_tag "id", o.objectId %>
+        <% end %>
+    </tr>
+    <% end %>
+    <tr></tr>
+    <tr>
+    <%= form_tag autho_domain_update_path do %>
+        <td><%= text_field_tag "prefecture" %></td>
+        <td><%= submit_tag("追加") %></td>
+        <%= hidden_field_tag "dom", @domain %>
+        <%= hidden_field_tag "collage", @collage %>
+        <%= hidden_field_tag "shortenCollege", @shortenCollege %>
+    <% end %>
+    </tr>
+</table>

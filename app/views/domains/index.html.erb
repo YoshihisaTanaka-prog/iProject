@@ -1,0 +1,52 @@
+<h1>Class：Domain</h1>
+<%= form_tag autho_path, method: :get do %>
+    <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, "Domain"), include_blank: false %>
+    <%= submit_tag("選択") %>
+<% end %>
+<%= form_tag autho_domain_create_path do %>
+    <table>        
+        <tr>
+            <th>ドメイン</th><th>大学名（正式名称）</th><th>大学名（略称）</th><th>都道府県</th>
+        </tr>
+        <tr>
+            <td><%= text_field_tag "dom" %></td>
+            <td><%= text_field_tag "collage" %></td>
+            <td><%= text_field_tag "shortenCollege" %></td>
+            <td><%= text_field_tag "prefecture" %></td>
+        </tr>
+    </table>
+    <%= hidden_field_tag "status", params["status"] %>
+    <%= submit_tag("追加") %>
+<% end %>
+<hr>
+<%= form_tag autho_domain_path, method: :get do %>
+    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3]],params["status"]), include_blank: false %>
+    <%= submit_tag("選択") %>
+<% end %>
+<hr>
+<table>
+    <tr>
+        <th>大学名（正式名称）</th><th>大学名（略称）</th><th>ドメイン</th><th>都道府県</th><th></th><th></th><th></th>
+    </tr>
+    <% @objects.each do |o| %>
+        <tr>
+            <td><%= o.collage %></td>
+            <td><%= o.shortenCollege %></td>
+            <td><%= o.domain %></td>
+            <td><%= o.prefecture %></td>
+            <% if o.checked %>
+                <% if o.parmitted %>
+                    <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
+                <% else %>
+                    <td><%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
+                <% end %>
+                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :dom => o.domain) %></td><td></td>
+            <% else %>
+                <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
+                <td><%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
+                <td>未確認</td>
+            <% end %>
+            
+        </tr>
+    <% end %>
+</table>

@@ -1,0 +1,25 @@
+<%= form_tag autho_path, method: :get do %>
+    <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, "TeacherParameter"), include_blank: false %>
+    <%= submit_tag("選択") %>
+<% end %>
+
+<hr>
+
+<table>
+    <tr>
+        <th>教師名</th><th>大学名</th><th>学部</th><th>許可</th><th></th>
+    </tr>
+    <% @objects.each do |o| %>
+        <tr>
+            <td><%= o.userName %></td>
+            <td><%= o.collage %></td>
+            <td><%= o.departments %></td>
+            <% if o.isAbleToTeach %>
+                <td><%= link_to "指導可能", autho_teacher_update_path(:objectId => o.objectId), method: :post %></td>
+            <% else %>
+                <td><%= link_to "指導不可", autho_teacher_update_path(:objectId => o.objectId), method: :post %></td>
+            <% end %>
+            <td><%= link_to "メッセージ", autho_chat_command_room_path(:id => o.objectId) %></td>
+        </tr>
+    <% end %>
+</table>

@@ -1,0 +1,2 @@
+class CommandChatsController < ApplicationController
+end

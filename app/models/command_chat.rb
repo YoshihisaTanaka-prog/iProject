@@ -1,0 +1,2 @@
+class CommandChat < ApplicationRecord
+end
