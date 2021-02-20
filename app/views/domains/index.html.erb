@@ -18,31 +18,36 @@
 <% end %>
 <hr>
 <%= form_tag autho_domain_path, method: :get do %>
-    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3]],params["status"]), include_blank: false %>
+    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3],["禁止済",4]],params["status"]), include_blank: false %>
     <%= submit_tag("選択") %>
+<% end %><br>
+<%= form_tag autho_domain_path, method: :get do %>
+    <%= text_field_tag 'cn' %>
+    <%= hidden_field_tag 'status', params['status'] %>
+    <%= submit_tag("検索") %>
 <% end %>
 <hr>
 <table>
     <tr>
-        <th>No.</th><th>objectId</th><th>大学名（正式名称）</th><th>ドメイン</th><th></th><th></th><th></th>
+        <th>No.</th><th>objectId</th><th>大学名（正式名称）</th><th>ドメイン</th><th>許可</th><th></th><th>状況</th>
     </tr>
     <% i = 1 %>
     <% @objects.each do |o| %>
         <tr>
             <td style="text-align: right;"><%= i %>&nbsp;</td>
             <td><%= o.objectId %></td>
-            <td><%= o.collage %></td>
+            <td><button onclick="copyAndMove('<%= o.collage %>')"><%= o.collage %></button></td>
             <td><%= o.domain %></td>
             <% if o.checked %>
                 <% if o.parmitted %>
-                    <td><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false), method: :post %></td>
                 <% else %>
-                    <td><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true), method: :post %></td>
                 <% end %>
-                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId) %></td><td>確認済</td>
+                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :status => params['status'], :cn => params["cn"]) %></td><td>確認済</td>
             <% else %>
-                <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
-                <td><%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
+                <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true), method: :post %>|
+                <%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false), method: :post %></td><td></td>
                 <td style="color: red;">未確認</td>
             <% end %>
             
@@ -50,3 +55,16 @@
         <% i += 1 %>
     <% end %>
 </table>
+
+<script>
+
+function copyAndMove( id ){
+    url1 = 'https://www.google.com/search?q=' + id;
+    url2 = url1 + '+略称';
+    url3 = url1 + '+アクセス';
+    window.open(url1, '_blank','noopener=yes,noreferrer=yes');
+    window.open(url2, '_blank','noopener=yes,noreferrer=yes');
+    window.open(url3, '_blank','noopener=yes,noreferrer=yes');
+}
+
+</script>

@@ -1,13 +1,13 @@
 <%= current_admin.level %>
-<%= link_to "Sign out", destroy_admin_session_path, method: :delete %><br>
-
-<%= link_to "チャット", autho_chat_path %><br>
 
 <% if params["class"].blank? %>
+    <%= link_to "Sign out", destroy_admin_session_path, method: :delete %><br><br>
     <%= form_tag autho_path, method: :get do %>
-        <%= select_tag 'class', options_for_select(@option, 1), include_blank: true %>
+        <%= select_tag 'class', options_for_select(@option, 1), include_blank: false %>
         <%= submit_tag("選択") %>
     <% end %>
+    <br><br>
+    <%= link_to "チャット", autho_chat_path %><br>
 <% else%>
     <h1>Class：<%= params["class"] %></h1>
     <%= form_tag autho_path, method: :get do %>

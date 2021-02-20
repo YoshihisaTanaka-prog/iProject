@@ -6,7 +6,9 @@ class DomainsController < ApplicationController
         object = NCMB::DataStore.new "Domain"
         @s_obj = NCMB::DataStore.new "ShortenCollageName"
         @p_obj = NCMB::DataStore.new "CollegePrefecture"
-        if params["status"].blank?
+        if !params['cn'].blank?
+            @objects = object.where("collage", params['cn'])
+        elsif params["status"].blank?
             @objects = object.all
         else
             case params["status"].to_i
@@ -20,6 +22,7 @@ class DomainsController < ApplicationController
                 @objects = object.where("checked", true).where("parmitted", false)
             else
                 @objects = object.where("parmitted", "false")
+                @objects = object.where("checked", "false")
             end
         end
     end
@@ -30,11 +33,11 @@ class DomainsController < ApplicationController
             domain = object.new(domain: params["dom"], collage: params["collage"], checked: false, parmitted: false)
             domain.acl = nil
             domain.save
-            redirect_to autho_domain_path
+            redirect_to autho_domain_path(:status => params['status'], :cn => params["cn"])
         else
             msg = "ドメインが存在するので、編集画面にリダイレクトしました。"
             d = params["dom"]
-            redirect_to autho_domain_edit_path(:dom => d, :msg => msg, :status => params['status'])
+            redirect_to autho_domain_edit_path(:dom => d, :msg => msg, :status => params['status'], :cn => params["cn"])
         end
     end
 
@@ -50,7 +53,7 @@ class DomainsController < ApplicationController
         
         obj.acl = nil
         obj.save
-        redirect_to autho_domain_path(:status => params["status"])
+        redirect_to autho_domain_path(:status => params["status"], :cn => params["cn"])
     end
 
     def edit
@@ -89,7 +92,7 @@ class DomainsController < ApplicationController
         cp = object.new(collageName: params['c'], prefecture: params['p'])
         cp.acl = nil
         cp.save
-        redirect_to autho_domain_edit_path(:id => params['id'])
+        redirect_to autho_domain_edit_path(:id => params['id'], :status => params['status'], :cn => params["cn"])
     end
 
     def add_shorten
@@ -101,14 +104,14 @@ class DomainsController < ApplicationController
                 s = s_obj.new(collageName: c, shortenName: params['name'])
                 s.acl = nil
                 s.save
-                redirect_to autho_domain_edit_path(:id => params['d_id'])
+                redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
             else
                 c = d_obj.where("objectId", params['d_id']).first.collage
                 s = s_obj.where('objectId', params['s_id']).first
                 s.objectId = params['s_id']
                 s.acl = nil
                 s.save
-                redirect_to autho_domain_edit_path(:id => params['d_id'])
+                redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
             end
         else   
             if params["s_id"].blank?
@@ -128,7 +131,7 @@ class DomainsController < ApplicationController
         domain.collage = params['collage']
         domain.acl = nil
         domain.save
-        redirect_to autho_domain_path(:status => params["status"])
+        redirect_to autho_domain_path(:status => params["status"], :cn => params["cn"])
     end
 
 end

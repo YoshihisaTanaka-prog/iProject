@@ -3,13 +3,13 @@
 <% if params['r'].blank? %>
     <table>
         <% @reg.each do |r| %>
-            <tr><td><%= link_to r.name, autho_domain_select_path(:d => params['d'], :r => r.objectId)%></td></tr>
+            <tr><td><%= link_to r.name, autho_domain_select_path(:d => params['d'], :r => r.objectId, :status => params['status'], :cn => params["cn"])%></td></tr>
         <% end %>
     </table>
 <% else %>
     <table>
         <% @pre.each do |p| %>
-            <tr><td><%= link_to p.name, autho_domain_addpre_path(:p => p.name, :c => @dom.collage, :id => @dom.objectId) ,method: :post %></td></tr>
+            <tr><td><%= link_to p.name, autho_domain_addpre_path(:p => p.name, :c => @dom.collage, :id => @dom.objectId, :status => params['status'], :cn => params["cn"]) ,method: :post %></td></tr>
         <% end %>
     </table>
 <% end %>

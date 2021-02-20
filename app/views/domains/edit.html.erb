@@ -1,5 +1,9 @@
+<%= link_to "ドメインのトップへ", autho_domain_path(:status => params['status'], :cn => params["cn"]) %>
+
+<br><br>
+
 <%= params["msg"] %>
-<%= form_tag autho_domain_update_path do %>
+<%= form_tag autho_domain_update_path(:status => params['status'], :cn => params["cn"]) do %>
     <%= hidden_field_tag "id", @id %>
     <table>
         <tr>
@@ -18,21 +22,21 @@
 <div style="float: left; width: 40vw;">
     <table>
         <% @prefecture.each do |p| %>
-            <tr><td><%= link_to p.prefecture, autho_domain_select_path(:p => p.objectId)%></td></tr>
+            <tr><td><%= link_to p.prefecture, autho_domain_select_path(:p => p.objectId, :status => params['status'], :cn => params["cn"])%></td></tr>
         <% end %>
     </table>
 
     <br><br>
-    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id) %>
+    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id, :status => params['status'], :cn => params["cn"]) %>
 </div>
 
 <div style="float: left; width: 40vw;">
     <table>
         <% @shorten.each do |s| %>
-            <tr><td><%= link_to s.shortenName, autho_domain_shorten_path(:d_id => @id ,:s_id => s.objectId)%></td></tr>
+            <tr><td><%= link_to s.shortenName, autho_domain_shorten_path(:d_id => @id ,:s_id => s.objectId, :status => params['status'], :cn => params["cn"])%></td></tr>
         <% end %>
     </table>
 
     <br><br>
-    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id) %>
+    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id, :status => params['status'], :cn => params["cn"]) %>
 </div>
