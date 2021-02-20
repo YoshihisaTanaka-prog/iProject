@@ -5,7 +5,7 @@
     </tr>
 <% @objects.each do |o| %>
     <tr>
-        <td><%= o.userName %></td>
+        <td><%# o.userName %></td>
         <td><%= o.collage %></td>
         <td><%= link_to "チャットへ", autho_chat_command_room_path(:id => o.objectId) %></td>
     </tr>

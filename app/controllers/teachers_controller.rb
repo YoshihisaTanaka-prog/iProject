@@ -1,5 +1,6 @@
 class TeachersController < ApplicationController
     before_action :authenticate_admin!
+    before_action :make_option , only: [:index]
 
     def index
         object = NCMB::DataStore.new "TeacherParameter"

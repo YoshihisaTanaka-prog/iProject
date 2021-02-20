@@ -1,43 +1,38 @@
 <%= params["msg"] %>
 <%= form_tag autho_domain_update_path do %>
+    <%= hidden_field_tag "id", @id %>
     <table>
         <tr>
-            <th>ドメイン</th><th>大学名（正式名称）</th><th>大学名（略称）</th>
+            <th>ドメイン</th><th>大学名（正式名称）</th>
         </tr>
         <tr>
             <td><%= text_field_tag "dom", @domain %></td>
             <td><%= text_field_tag "collage", @collage %></td>
-            <td><%= text_field_tag "shortenCollege", @shortenCollege %></td>
         </tr>
     </table>
-    <%= hidden_field_tag "all", "a" %>
     <%= submit_tag("編集") %>
 <% end %>
 
-<table>
-    <tr>
-    <th>都道府県リスト</th><th></th>    
-    </tr>
-    <% @objects.each do |o| %>
-    <tr>
-        <%= form_tag autho_domain_update_path do %>
-            <td><%= text_field_tag "prefecture", o.prefecture %></td>
-            <td><%= submit_tag("編集") %></td>
-            <%= hidden_field_tag "dom", @domain %>
-            <%= hidden_field_tag "collage", @collage %>
-            <%= hidden_field_tag "shortenCollege", @shortenCollege %>
-            <%= hidden_field_tag "id", o.objectId %>
+<br><br>
+
+<div style="float: left; width: 40vw;">
+    <table>
+        <% @prefecture.each do |p| %>
+            <tr><td><%= link_to p.prefecture, autho_domain_select_path(:p => p.objectId)%></td></tr>
         <% end %>
-    </tr>
-    <% end %>
-    <tr></tr>
-    <tr>
-    <%= form_tag autho_domain_update_path do %>
-        <td><%= text_field_tag "prefecture" %></td>
-        <td><%= submit_tag("追加") %></td>
-        <%= hidden_field_tag "dom", @domain %>
-        <%= hidden_field_tag "collage", @collage %>
-        <%= hidden_field_tag "shortenCollege", @shortenCollege %>
-    <% end %>
-    </tr>
-</table>
+    </table>
+
+    <br><br>
+    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id) %>
+</div>
+
+<div style="float: left; width: 40vw;">
+    <table>
+        <% @shorten.each do |s| %>
+            <tr><td><%= link_to s.shortenName, autho_domain_select_path(:s => s.objectId)%></td></tr>
+        <% end %>
+    </table>
+
+    <br><br>
+    <%= link_to "略称を追加", autho_domain_select_path(:d => @id) %>
+</div>

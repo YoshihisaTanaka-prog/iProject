@@ -5,13 +5,13 @@
 
 <% if params["class"].blank? %>
     <%= form_tag autho_path, method: :get do %>
-        <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, 1), include_blank: true %>
+        <%= select_tag 'class', options_for_select(@option, 1), include_blank: true %>
         <%= submit_tag("選択") %>
     <% end %>
 <% else%>
     <h1>Class：<%= params["class"] %></h1>
     <%= form_tag autho_path, method: :get do %>
-        <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, params["class"]), include_blank: false %>
+        <%= select_tag 'class', options_for_select(@option, params["class"]), include_blank: false %>
         <%= submit_tag("選択") %>
     <% end %>
     <hr>

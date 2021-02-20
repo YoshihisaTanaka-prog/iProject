@@ -1,5 +1,5 @@
 <%= form_tag autho_path, method: :get do %>
-    <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, "TeacherParameter"), include_blank: false %>
+    <%= select_tag 'class', options_for_select(@option, "TeacherParameter"), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
 
@@ -11,7 +11,7 @@
     </tr>
     <% @objects.each do |o| %>
         <tr>
-            <td><%= o.userName %></td>
+            <td><%# o.userName %></td>
             <td><%= o.collage %></td>
             <td><%= o.departments %></td>
             <% if o.isAbleToTeach %>

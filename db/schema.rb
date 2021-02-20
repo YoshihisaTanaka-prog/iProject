@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_115558) do
+ActiveRecord::Schema.define(version: 2021_02_20_072856) do
 
   create_table "admin_chats", force: :cascade do |t|
     t.integer "user_id"
@@ -41,6 +41,21 @@ ActiveRecord::Schema.define(version: 2021_02_10_115558) do
     t.text "message"
     t.boolean "is_from_user"
     t.boolean "is_read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "prefectures", force: :cascade do |t|
+    t.string "regionId"
+    t.string "objectId"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string "objectId"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

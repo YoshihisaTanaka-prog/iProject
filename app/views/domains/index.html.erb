@@ -1,6 +1,6 @@
 <h1>Class：Domain</h1>
 <%= form_tag autho_path, method: :get do %>
-    <%= select_tag 'class', options_for_select({Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat", Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}, "Domain"), include_blank: false %>
+    <%= select_tag 'class', options_for_select(@option, "Domain"), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
 <%= form_tag autho_domain_create_path do %>
@@ -20,33 +20,35 @@
 <% end %>
 <hr>
 <%= form_tag autho_domain_path, method: :get do %>
-    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3]],params["status"]), include_blank: false %>
+    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3],["エラー集",4]],params["status"]), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
 <hr>
 <table>
     <tr>
-        <th>大学名（正式名称）</th><th>大学名（略称）</th><th>ドメイン</th><th>都道府県</th><th></th><th></th><th></th>
+        <th>No.</th><th>objectId</th><th>大学名（正式名称）</th><th>ドメイン</th><th></th><th></th><th></th>
     </tr>
+    <% i = 1 %>
     <% @objects.each do |o| %>
         <tr>
+            <td style="text-align: right;"><%= i %>&nbsp;</td>
+            <td><%= o.objectId %></td>
             <td><%= o.collage %></td>
-            <td><%= o.shortenCollege %></td>
             <td><%= o.domain %></td>
-            <td><%= o.prefecture %></td>
             <% if o.checked %>
                 <% if o.parmitted %>
-                    <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
+                    <td><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
                 <% else %>
-                    <td><%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
+                    <td><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
                 <% end %>
-                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :dom => o.domain) %></td><td></td>
+                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId) %></td><td>確認済</td>
             <% else %>
                 <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => true), method: :post %></td>
                 <td><%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :parmitted => false), method: :post %></td>
-                <td>未確認</td>
+                <td style="color: red;">未確認</td>
             <% end %>
             
         </tr>
+        <% i += 1 %>
     <% end %>
 </table>

@@ -47,5 +47,9 @@ class ApplicationController < ActionController::Base
     def after_sign_out_path_for(resource)
         root_path
     end
+
+    def make_option
+        @option = {Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat",Prefecture: "Region",Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}
+    end
     
 end

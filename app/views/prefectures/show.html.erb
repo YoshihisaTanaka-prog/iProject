@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Regionid:</strong>
+  <%= @prefecture.regionId %>
+</p>
+
+<p>
+  <strong>Objectid:</strong>
+  <%= @prefecture.objectId %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @prefecture.name %>
+</p>
+
+<%= link_to 'Edit', edit_prefecture_path(@prefecture.objectId) %> |
+<%= link_to 'Back', region_path(@prefecture.regionId) %>

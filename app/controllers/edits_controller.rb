@@ -1,5 +1,6 @@
 class EditsController < ApplicationController
     before_action :authenticate_admin!
+    before_action :make_option , only: [:index]
 
     def index
         normal_limit 1
@@ -7,6 +8,8 @@ class EditsController < ApplicationController
             object = NCMB::DataStore.new params["class"]
             @objects = object.all
             case params["class"]
+            when "Region" then
+                redirect_to autho_prefecture_path
             when "Domain" then
                 redirect_to autho_domain_path
             when "TeacherParameter" then

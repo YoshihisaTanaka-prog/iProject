@@ -1,8 +1,11 @@
 class DomainsController < ApplicationController
     before_action :authenticate_admin!
+    before_action :make_option , only: [:index]
 
     def index
         object = NCMB::DataStore.new "Domain"
+        @s_obj = NCMB::DataStore.new "ShortenCollageName"
+        @p_obj = NCMB::DataStore.new "CollegePrefecture"
         if params["status"].blank?
             @objects = object.all
         else
@@ -13,8 +16,26 @@ class DomainsController < ApplicationController
                 @objects = object.where("checked", false)
             when 2 then
                 @objects = object.where("checked", true).where("parmitted", true)
-            else
+            when 3 then
                 @objects = object.where("checked", true).where("parmitted", false)
+            else
+                obj1 = object.where("checked", "true")
+                obj2 = object.where("checked", "false")
+                obj3 = object.where("parmitted", "true")
+                obj4 = object.where("parmitted", "false")
+                @objects = []
+                obj1.each do |o|
+                    @objects.push(o)
+                end
+                obj2.each do |o|
+                    @objects.push(o)
+                end
+                obj3.each do |o|
+                    @objects.push(o)
+                end
+                obj4.each do |o|
+                    @objects.push(o)
+                end
             end
         end
     end
@@ -50,37 +71,51 @@ class DomainsController < ApplicationController
 
     def edit
         object = NCMB::DataStore.new "Domain"
-        @objects = object.where("domain", params["dom"])
+        p_obj = NCMB::DataStore.new "CollegePrefecture"
+        s_obj = NCMB::DataStore.new "ShortenCollageName"
+        @objects = object.where("objectId", params["id"])
         obj = @objects.first
+        @id = obj.objectId
         @domain = obj.domain
         @collage = obj.collage
-        @shortenCollege = obj.shortenCollege
+        @prefecture = p_obj.where("collageName", @collage)
+        @shorten = s_obj.where("collageName", @collage)
+    end
+
+    def select
+        if params['d'].blank?
+            redirect_to autho_domain_path
+        end
+
+        d_obj = NCMB::DataStore.new "Domain"
+        r_obj = NCMB::DataStore.new "Region"
+        p_obj = NCMB::DataStore.new "Prefecture"
+        @dom = d_obj.where("objectId", params['d']).first
+        if params['r'].blank?
+            @reg = r_obj.all
+            @pre = p_obj.all
+        else
+            @reg = r_obj.where("objectId", params['r']).first
+            @pre = p_obj.where("regionId", params['r'])
+        end
+    end
+
+    def add_prefecture
+        object = NCMB::DataStore.new "CollegePrefecture"
+        cp = object.new(collageName: params['c'], prefecture: params['p'])
+        cp.acl = nil
+        cp.save
+        redirect_to autho_domain_edit_path(:id => params['id'])
     end
 
     def update
         object = NCMB::DataStore.new "Domain"
-        if params["all"].blank?
-            if params["id"].blank?
-                domain = object.new(domain: params["dom"], collage: params["collage"], shortenCollege: params["shortenCollege"], prefecture: params["prefecture"], checked: true, parmitted: true)
-                domain.acl = nil
-                domain.save
-            else
-                domain = object.where("objectId", params['id']).first
-                domain.domain = params['dom']
-                domain.collage = params['collage']
-                domain.shortenCollege = params['shortenCollege']
-                domain.prefecture = params['prefecture']
-                domain.acl = nil
-            end
-        else
-            domains = object.where("domain", params["dom"])
-                domains.each do |domain|
-                domain.domain = params['dom']
-                domain.collage = params['collage']
-                domain.shortenCollege = params['shortenCollege']
-                domain.acl = nil
-            end
-        end
+        domain = object.where("objectId", params["id"]).first
+        domain.objectId = params['id']
+        domain.domain = params['dom']
+        domain.collage = params['collage']
+        domain.acl = nil
+        domain.save
         redirect_to autho_domain_path(:status => params["status"])
     end
 

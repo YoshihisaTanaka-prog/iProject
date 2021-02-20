@@ -1,5 +1,6 @@
 class CommandsController < ApplicationController
     before_action :authenticate_admin!
+    before_action :make_option , only: [:index]
 
     def top
     end

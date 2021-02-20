@@ -1,0 +1,17 @@
+<h1>Editing Region</h1>
+
+<%=  form_with(url: region_path(@region.objectId),local:true,method: :patch) do |f| %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name , value: @region.name%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Show', region_path(@region.objectId) %> |
+<%= link_to 'Back', regions_path %>

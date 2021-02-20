@@ -1,0 +1,20 @@
+<h1>Editing Prefecture</h1>
+
+<%=  form_with(url: prefecture_path(@prefecture.objectId),local:true,method: :patch) do |f| %>
+
+    <%= f.hidden_field :id, value: @prefecture.objectId %>
+    <%= f.hidden_field :r_id, value: @prefecture.regionId %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name , value: @prefecture.name%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Show', prefecture_path(@prefecture.objectId) %> |
+<%= link_to 'Back', region_path(@prefecture.regionId) %>
