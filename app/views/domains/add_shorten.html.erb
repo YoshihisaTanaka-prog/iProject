@@ -1,0 +1,14 @@
+<%= form_tag autho_domain_shorten_path do %>
+    <% if params['s_id'].blank? %>
+        <%= hidden_field_tag "d_id", params['d_id'] %>
+        <%= label_tag "name", "大学の略称" %>
+        <%= text_field_tag "name" %>
+        <%= submit_tag "作成" %>
+    <% else %>
+        <%= hidden_field_tag "d_id", params['d_id'] %>
+        <%= hidden_field_tag "s_id", params['s_id'] %>
+        <%= label_tag "name", "大学の略称" %>
+        <%= text_field_tag "name", @obj.shortenName %>
+        <%= submit_tag "編集" %>
+    <% end %>
+<% end %>

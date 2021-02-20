@@ -6,13 +6,11 @@
 <%= form_tag autho_domain_create_path do %>
     <table>        
         <tr>
-            <th>ドメイン</th><th>大学名（正式名称）</th><th>大学名（略称）</th><th>都道府県</th>
+            <th>ドメイン</th><th>大学名（正式名称）</th>
         </tr>
         <tr>
             <td><%= text_field_tag "dom" %></td>
             <td><%= text_field_tag "collage" %></td>
-            <td><%= text_field_tag "shortenCollege" %></td>
-            <td><%= text_field_tag "prefecture" %></td>
         </tr>
     </table>
     <%= hidden_field_tag "status", params["status"] %>
@@ -20,7 +18,7 @@
 <% end %>
 <hr>
 <%= form_tag autho_domain_path, method: :get do %>
-    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3],["エラー集",4]],params["status"]), include_blank: false %>
+    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3]],params["status"]), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
 <hr>

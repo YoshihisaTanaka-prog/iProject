@@ -29,10 +29,10 @@
 <div style="float: left; width: 40vw;">
     <table>
         <% @shorten.each do |s| %>
-            <tr><td><%= link_to s.shortenName, autho_domain_select_path(:s => s.objectId)%></td></tr>
+            <tr><td><%= link_to s.shortenName, autho_domain_shorten_path(:d_id => @id ,:s_id => s.objectId)%></td></tr>
         <% end %>
     </table>
 
     <br><br>
-    <%= link_to "略称を追加", autho_domain_select_path(:d => @id) %>
+    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id) %>
 </div>

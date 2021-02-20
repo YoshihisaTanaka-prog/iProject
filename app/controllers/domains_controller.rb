@@ -19,23 +19,7 @@ class DomainsController < ApplicationController
             when 3 then
                 @objects = object.where("checked", true).where("parmitted", false)
             else
-                obj1 = object.where("checked", "true")
-                obj2 = object.where("checked", "false")
-                obj3 = object.where("parmitted", "true")
-                obj4 = object.where("parmitted", "false")
-                @objects = []
-                obj1.each do |o|
-                    @objects.push(o)
-                end
-                obj2.each do |o|
-                    @objects.push(o)
-                end
-                obj3.each do |o|
-                    @objects.push(o)
-                end
-                obj4.each do |o|
-                    @objects.push(o)
-                end
+                @objects = object.where("parmitted", "false")
             end
         end
     end
@@ -43,7 +27,7 @@ class DomainsController < ApplicationController
     def create
         object = NCMB::DataStore.new "Domain"
         if object.where("domain", params["dom"]).first.blank?
-            domain = object.new(domain: params["dom"], collage: params["collage"], shortenCollege: params["shortenCollege"], prefecture: params["prefecture"], checked: false, parmitted: false)
+            domain = object.new(domain: params["dom"], collage: params["collage"], checked: false, parmitted: false)
             domain.acl = nil
             domain.save
             redirect_to autho_domain_path
@@ -106,6 +90,34 @@ class DomainsController < ApplicationController
         cp.acl = nil
         cp.save
         redirect_to autho_domain_edit_path(:id => params['id'])
+    end
+
+    def add_shorten
+        d_obj = NCMB::DataStore.new "Domain"
+        s_obj = NCMB::DataStore.new "ShortenCollageName"
+        if request.post?   
+            if params["s_id"].blank?
+                c = d_obj.where("objectId", params['d_id']).first.collage
+                s = s_obj.new(collageName: c, shortenName: params['name'])
+                s.acl = nil
+                s.save
+                redirect_to autho_domain_edit_path(:id => params['d_id'])
+            else
+                c = d_obj.where("objectId", params['d_id']).first.collage
+                s = s_obj.where('objectId', params['s_id']).first
+                s.objectId = params['s_id']
+                s.acl = nil
+                s.save
+                redirect_to autho_domain_edit_path(:id => params['d_id'])
+            end
+        else   
+            if params["s_id"].blank?
+                @c = d_obj.where("objectId", params['d_id']).first.collage
+            else
+                @c = d_obj.where("objectId", params['d_id']).first.collage
+                @obj = s_obj.where("objectId", params['s_id']).first
+            end
+        end
     end
 
     def update

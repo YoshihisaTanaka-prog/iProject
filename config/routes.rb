@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   post 'autho/domain/update', to: 'domains#update'
   get 'autho/domain/select', to: 'domains#select'
   post 'autho/domain/addpre', to: 'domains#add_prefecture'
+  get 'autho/domain/shorten', to: 'domains#add_shorten'
+  post 'autho/domain/shorten', to: 'domains#add_shorten'
 
   get 'autho/prefecture', to: 'regions#index'
 
