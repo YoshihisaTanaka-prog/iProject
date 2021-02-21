@@ -101,17 +101,27 @@ class DomainsController < ApplicationController
         if request.post?   
             if params["s_id"].blank?
                 c = d_obj.where("objectId", params['d_id']).first.collage
-                s = s_obj.new(collageName: c, shortenName: params['name'])
-                s.acl = nil
-                s.save
-                redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
+                if c == params['name']
+                    redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"], :msg => "大学名が省略されていません！")
+                else 
+                    s = s_obj.new(collageName: c, shortenName: params['name'])
+                    s.acl = nil
+                    s.save
+                    redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
+                end
             else
                 c = d_obj.where("objectId", params['d_id']).first.collage
                 s = s_obj.where('objectId', params['s_id']).first
-                s.objectId = params['s_id']
-                s.acl = nil
-                s.save
-                redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
+                if c == params['name']
+                    redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"], :msg => "大学名が省略されていません！")
+                else
+                    s.objectId = params['s_id']
+                    s.collageName = c
+                    s.shortenName = params['name']
+                    s.acl = nil
+                    s.save
+                    redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
+                end
             end
         else   
             if params["s_id"].blank?

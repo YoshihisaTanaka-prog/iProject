@@ -2,7 +2,7 @@
 
 <br><br>
 
-<%= params["msg"] %>
+<p style="color: red;"><%= params["msg"] %><p>
 <%= form_tag autho_domain_update_path(:status => params['status'], :cn => params["cn"]) do %>
     <%= hidden_field_tag "id", @id %>
     <table>

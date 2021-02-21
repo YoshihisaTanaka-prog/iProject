@@ -3,6 +3,9 @@
     <%= select_tag 'class', options_for_select(@option, "Domain"), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
+<br>
+<hr>
+<br>
 <%= form_tag autho_domain_create_path do %>
     <table>        
         <tr>
@@ -10,22 +13,29 @@
         </tr>
         <tr>
             <td><%= text_field_tag "dom" %></td>
-            <td><%= text_field_tag "collage" %></td>
+            <td><%= text_field_tag "collage", params['cn'] %></td>
+            <td><%= hidden_field_tag "status", params["status"] %><%= submit_tag("追加") %></td>
         </tr>
     </table>
-    <%= hidden_field_tag "status", params["status"] %>
-    <%= submit_tag("追加") %>
 <% end %>
+<br>
 <hr>
-<%= form_tag autho_domain_path, method: :get do %>
-    <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3],["禁止済",4]],params["status"]), include_blank: false %>
-    <%= submit_tag("選択") %>
-<% end %><br>
-<%= form_tag autho_domain_path, method: :get do %>
-    <%= text_field_tag 'cn' %>
-    <%= hidden_field_tag 'status', params['status'] %>
-    <%= submit_tag("検索") %>
-<% end %>
+<div>
+    <br>
+    <div style="float: left; width: 30vw;">
+        <%= form_tag autho_domain_path, method: :get do %>
+            <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3],["禁止済",4]],params["status"]), include_blank: false %>
+            <%= submit_tag("選択") %>
+        <% end %>
+    </div>
+    <div style="float: left; width: 30vw;">
+        <%= form_tag autho_domain_path, method: :get, style:"float: left; width: 30vw;" do %>
+            <%= text_field_tag 'cn', params['cn'] %>
+            <%= hidden_field_tag 'status', params['status'] %>
+            <%= submit_tag("検索") %>
+        <% end %>
+    </div>
+</div><br><br>
 <hr>
 <table>
     <tr>
@@ -40,11 +50,11 @@
             <td><%= o.domain %></td>
             <% if o.checked %>
                 <% if o.parmitted %>
-                    <td style="text-align: center;"><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => false), method: :post %></td>
                 <% else %>
-                    <td style="text-align: center;"><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => true), method: :post %></td>
                 <% end %>
-                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :status => params['status'], :cn => params["cn"]) %></td><td>確認済</td>
+                <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :status => params['status'], :cn => o.collage) %></td><td>確認済</td>
             <% else %>
                 <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true), method: :post %>|
                 <%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false), method: :post %></td><td></td>
@@ -59,12 +69,16 @@
 <script>
 
 function copyAndMove( id ){
-    url1 = 'https://www.google.com/search?q=' + id;
-    url2 = url1 + '+略称';
-    url3 = url1 + '+アクセス';
+    url = 'https://www.google.com/search?q=' + id;
+    url1 = url + '+住所';
+    url2 = url + '+キャンパス+一覧';
+    url3 = url + '+略称';
+    url4 = url + '+ドメイン';
+    location.href = '/autho/domain?cn=' + id;
     window.open(url1, '_blank','noopener=yes,noreferrer=yes');
     window.open(url2, '_blank','noopener=yes,noreferrer=yes');
     window.open(url3, '_blank','noopener=yes,noreferrer=yes');
+    window.open(url4, '_blank','noopener=yes,noreferrer=yes');
 }
 
 </script>

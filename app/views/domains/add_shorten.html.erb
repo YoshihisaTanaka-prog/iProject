@@ -1,8 +1,8 @@
-<%= form_tag autho_domain_shorten_path(:status => params['status']) do %>
+<%= form_tag autho_domain_shorten_path(:status => params['status'], :cn => params['cn']) do %>
     <% if params['s_id'].blank? %>
         <%= hidden_field_tag "d_id", params['d_id'] %>
         <%= label_tag "name", "大学の略称" %>
-        <%= text_field_tag "name" %>
+        <%= text_field_tag "name", params['cn'] %>
         <%= submit_tag "作成" %>
     <% else %>
         <%= hidden_field_tag "d_id", params['d_id'] %>
