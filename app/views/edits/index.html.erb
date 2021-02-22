@@ -1,7 +1,6 @@
 <%= current_admin.level %>
 
 <% if params["class"].blank? %>
-    <%= link_to "Sign out", destroy_admin_session_path, method: :delete %><br><br>
     <%= form_tag autho_path, method: :get do %>
         <%= select_tag 'class', options_for_select(@option, 1), include_blank: false %>
         <%= submit_tag("選択") %>

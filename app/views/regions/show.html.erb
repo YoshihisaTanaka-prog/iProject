@@ -20,8 +20,6 @@
 <table>
   <thead>
     <tr>
-      <th>Regionid</th>
-      <th>Objectid</th>
       <th>Name</th>
       <th colspan="3"></th>
     </tr>
@@ -30,8 +28,6 @@
   <tbody>
     <% @prefectures.each do |prefecture| %>
       <tr>
-        <td><%= prefecture.regionId %></td>
-        <td><%= prefecture.objectId %></td>
         <td><%= prefecture.name %></td>
         <td><%= link_to 'Show', prefecture_path(prefecture.objectId) %></td>
         <td><%= link_to 'Edit', edit_prefecture_path(prefecture.objectId) %></td>

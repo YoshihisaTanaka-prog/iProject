@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+    before_action :set_color
 
     require 'rack'
     require 'ncmb'
@@ -50,6 +51,12 @@ class ApplicationController < ActionController::Base
 
     def make_option
         @option = {Top: nil, Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat",Prefecture: "Region",Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}
+    end
+
+    def set_color
+        @concept_color = "backGround: #3778ff; color: #000032;"
+        @base_color = "backGround: #c4dcff; color: #000032;"
+        @accent_color = "backGround: #ffff32; color: #000032;"
     end
     
 end
