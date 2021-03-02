@@ -1,0 +1,14 @@
+<%= link_to "ルームに戻る", autho_chat_admin_room_path(:id => params["id"]) %>
+
+<table>
+    <tr>
+        <th>名前</th><th>メールアドレス</th><th>権限</th>
+    </tr>
+    <% @admins.each do |a| %>
+        <tr>
+            <td><%= a.name %></td>
+            <td><%= a.email %></td>
+            <td><%= a.level %></td>
+        </tr>
+    <% end %>
+</table>

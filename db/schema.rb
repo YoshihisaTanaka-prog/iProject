@@ -10,18 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_072856) do
+ActiveRecord::Schema.define(version: 2021_03_01_092300) do
 
   create_table "admin_chats", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "autho_id"
+    t.integer "group_id"
     t.text "message"
-    t.boolean "is_from_user"
+    t.string "url"
     t.boolean "is_read", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "admin_groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "admins", force: :cascade do |t|
+    t.string "name", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -41,6 +49,13 @@ ActiveRecord::Schema.define(version: 2021_02_20_072856) do
     t.text "message"
     t.boolean "is_from_user"
     t.boolean "is_read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "group_admins", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "admin_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

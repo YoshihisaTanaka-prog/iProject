@@ -1,3 +1,48 @@
-tyuuuuuuui<br>
+<h1>注意</h1>
 
-<%= link_to "Sign out", destroy_admin_session_path, method: :delete %>
+<p>
+    アクセスしようとしたページには<%= params['level'] %>が必要です。
+</p>
+
+<% if @is_able_to_send %>
+    <%= form_tag "" do %>
+        <%= hidden_field_tag "level", params['level'] %>
+        <%= button_to "管理者に" + params['level'] + "を要求する。", onclick: request() %>
+    <% end %>
+    <p>
+        一度要求すると24時間要求できなくなります。
+    </p>
+    <%= javascript_tag do %>
+        function request(){
+            location.replace("/caution");
+        }
+    <% end %>
+<% else %>
+    <p>
+        再び権限を要求できるようになるまであと
+        <span id='hour'><%= @rest_time.floor / 3600 %></span>時間
+        <span id='minute'><%= (@rest_time.floor / 60) % 60 %></span>分
+        <span id='second'><%= @rest_time.floor % 60 %></span>秒かかります。
+    </p>
+    <%= javascript_tag do %>
+        function calculate_rest_time(time){
+            document.getElementById('hour').innerHTML = Math.floor(time / 3600);
+            document.getElementById('minute').innerHTML = Math.floor((time / 60) % 60);
+            document.getElementById('second').innerHTML = time % 60;
+        }
+        let count = <%= @rest_time.floor - 1 %>;
+        const countDown = () => {
+            calculate_rest_time(count--);
+        }
+        setInterval(() => {
+            countDown();
+            if(count < 0){
+                clearInterval(intervalId);
+
+            }
+        }, 1000);
+    <% end %>
+<% end %>
+<p>
+    <%= link_to "トップへ", destroy_admin_session_path, method: :delete %>
+</p>

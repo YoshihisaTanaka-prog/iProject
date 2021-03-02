@@ -1,6 +1,7 @@
 class DomainsController < ApplicationController
     before_action :authenticate_admin!
     before_action :make_option , only: [:index]
+    before_action -> { normal_limit(1)}
 
     def index
         object = NCMB::DataStore.new "Domain"

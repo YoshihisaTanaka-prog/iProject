@@ -1,5 +1,10 @@
 <%= current_admin.level %>
 
+<% if current_admin.subadmin %>
+    <br>
+    <%= link_to "運営者の管理", autho_levelsetting_path %>
+<% end %>
+
 <% if params["class"].blank? %>
     <%= form_tag autho_path, method: :get do %>
         <%= select_tag 'class', options_for_select(@option, 1), include_blank: false %>

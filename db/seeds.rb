@@ -6,4 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Admin.create!(email: 'geek.entre01@gmail.com', password: 'GeSaEn01', subadmin: true, admin: true)
+Admin.create(name: '田中義久',email: 'nakanaka.tanaka4413@gmail.com', password: 'ToHi3118', subadmin: true, admin: true)
+AdminGroup.create([{name: "全体"},{name: "幹部"}])
+GroupAdmin.create([{group_id: 1, admin_id: 1},{group_id: 2, admin_id: 1}])

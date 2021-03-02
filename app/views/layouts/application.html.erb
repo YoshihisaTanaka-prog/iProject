@@ -15,8 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     
     <header style="<%= @concept_color %> width: 100vw;">
-      <div style="width: 100vw; float: right; <%= @concept_color %>">
-        <nav style="width: 100vw; height: 4rem;">
+      <div style="width: 100vw; height: 5vh; float: right; <%= @concept_color %>">
+        <nav style="width: 100vw;">
           <ul style="list-style: none; float: right;">
             <% if admin_signed_in? %>
               <li style="float: right; padding: 1rem;"><%= link_to "　ログアウト　", destroy_admin_session_path, method: :delete, style: @base_color + 'text-decoration: none;' %></li>
@@ -37,8 +37,8 @@
     <%= yield %>
 
     <footer>
-     <div style="width: 100vw; height: 4rem; float: right; <%= @concept_color %>position: absolute; bottom: 0;">
-      <p style="float: right; <%= @concept_color %> position: absolute; top: 50%; transform: translateY(-50%); right: 3%;">Copyright © 2021 iProject Inc.</p>
+     <div style="width: 100vw; height: 5vh; float: right; <%= @concept_color %>position: absolute; bottom: 0;">
+      <p style="float: right; <%= @concept_color %> position: absolute; top: 50%; transform: translateY(-50%); right: 3%;">Copyright © 2021 iProject Inc. Yoshihisa Tanaka</p>
       </div>
     </footer>
   </body>

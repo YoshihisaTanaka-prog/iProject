@@ -1,0 +1,49 @@
+<h3>従業員の管理</h3>
+<br>
+<%= form_tag autho_levelsetting_path, method: :get do %>
+    <%= text_field_tag "mail", params['mail'] %>
+    <%= submit_tag "検索" %>
+<% end %>
+<br>
+<hr>
+<br>
+<table>
+    <tr>
+        <th style="align: center;">ユーザー名</th><th style="align: center;">メールアドレス</th><th colspan="3" style="align: center;">レベル</th><th colspan="2" style="align: center;">管理権限</th>
+    </tr>
+    <% @admins.each do |a| %>
+        <tr>
+            <%# ユーザー名 %>
+            <td><%= a.name %> </td>
+            <%# メールアドレス %>
+            <td><%= a.email %> </td>
+            <%# レベル %>
+            <% if !a.subadmin %>
+                <td><%= a.level %> </td>
+                <% if a.admin_level == 0 %>
+                    <td style="align: center;">X</td>
+                <% else %>
+                    <td><%= link_to "-", autho_levelsetting_path(:mode => "normal", :id => a.id, :level => a.admin_level-1, :mail => params['mail']), method: :post %></td>
+                <% end %>
+                <td><%= link_to "+", autho_levelsetting_path(:mode => "normal", :id => a.id, :level => a.admin_level+1, :mail => params['mail']), method: :post %> </td>
+            <% else %>
+                <td colspan="3"><%= a.level%></td>
+            <% end %>
+            <%# 管理権限 %>
+            
+            <% if a.admin %>
+                <td colspan="2" style="align: center;">X</td>
+            <% elsif a.subadmin %>
+                <% if current_admin.admin %>
+                    <td><%= link_to '最高権限を与える', autho_levelsetting_path(:mode => "admin", :id => a.id, :mail => params['mail']), method: :post %></td>
+                    <td><%= link_to '準最高権限を奪う', autho_levelsetting_path(:mode => "subadmin", :id => a.id, :mail => params['mail']), method: :post %></td>
+                <% else %>
+                    <td colspan="2" style="align: center;">X</td>
+                <% end %>
+            <% else %>
+                <td colspan="2" style="align: center;"><%= link_to '準最高権限を与える', autho_levelsetting_path(:mode => "subadmin", :id => a.id, :mail => params['mail']), method: :post %></td>
+            <% end %>
+            
+        </tr>
+    <% end %>
+</table>

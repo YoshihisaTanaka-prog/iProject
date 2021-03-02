@@ -2,6 +2,8 @@ class RegionsController < ApplicationController
   before_action :make_option , only: [:index]
   before_action :set_ncmb
   before_action :set_region, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin!
+  before_action -> { normal_limit(1)}
 
   # GET /regions or /regions.json
   def index

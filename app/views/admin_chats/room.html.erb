@@ -1,0 +1,39 @@
+<ul>
+    <li><%= link_to "グループ脱退" , autho_chat_admin_room_path(:id => params['id']), method: :delete %></li>
+    <li><%= link_to "メンバー追加" , autho_chat_admin_room_path(:id => params['id']), method: :post %></li>
+    <li><%= link_to "メンバー一覧" , autho_chat_admin_room_members_path(:id => params['id']) %></li>
+</ul>
+
+<div class="chat-main">
+    <div>
+        <% @chats.each do |c| %>
+        <div class="chat">
+            <% if c.autho_id == current_admin.id %>
+                <div class="my-chat">
+                    <p style="float: right;"><%= c.autho_id %></p>
+                    <div class="message" style="float: right;">
+                        <%= c.message %>
+                        <% if !c.url.blank? %>
+                            <a href="<%= c.url %>"></a>
+                        <% end %>
+                    </div>
+                </div>
+            <% else %>
+                <div class="your-chat">
+                    <p style="float: left;"><%= c.autho_id %></p>
+                    <div class="message" style="float: left;">
+                        <%= c.message %>
+                        <% if !c.url.blank? %>
+                            <a href="<%= c.url %>"></a>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+</div>
+<%= form_tag autho_chat_admin_talk_path(:group_id => params['id'], :admin_id => current_admin.id), class:"chat-form" do %>
+    <%= text_field_tag "message","", style:"width: 19vw;" %>
+    <%= submit_tag "送信", style:"width: 5vw;" %>
+<% end %>

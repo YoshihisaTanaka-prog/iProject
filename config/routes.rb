@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'tops#index'
 
   get 'caution', to: 'tops#caution'
+  post 'caution', to: 'tops#caution'
   get 'autho/caution', to: 'edits#caution'
 
   get 'autho', to: 'edits#index'
@@ -32,5 +33,16 @@ Rails.application.routes.draw do
   get 'autho/chat', to: 'commands#top'
   get 'autho/chat/command', to: 'commands#index'
   get 'autho/chat/command/room', to: 'commands#room'
+  get 'autho/chat/admin', to: 'admin_chats#index'
+  get 'autho/chat/admin/new', to: 'admin_chats#new'
+  post 'autho/chat/admin/new', to: 'admin_chats#new'
+  post 'autho/chat/admin/talk', to: 'admin_chats#talk'
+  get 'autho/chat/admin/room/members', to: 'admin_chats#members'
+  get 'autho/chat/admin/room', to: 'admin_chats#room'
+  post 'autho/chat/admin/room', to: 'admin_chats#room'
+  delete 'autho/chat/admin/room', to: 'admin_chats#room'
+
+  get 'autho/levelsetting', to: 'level_settings#index'
+  post 'autho/levelsetting', to: 'level_settings#edit'
 
 end

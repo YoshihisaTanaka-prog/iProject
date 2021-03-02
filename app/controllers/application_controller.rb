@@ -12,18 +12,19 @@ class ApplicationController < ActionController::Base
         if current_admin.admin
             return
         elsif current_admin.admin_level == 0
-            redirect_to caution_path
+            redirect_to caution_path(:level => "最高権限")
         else
-            redirect_to edit_caution_path
+            redirect_to edit_caution_path(:level => "最高権限")
         end
     end
 
     def strong_limit
         if current_admin.subadmin
+            return
         elsif current_admin.admin_level == 0
-            redirect_to caution_path
+            redirect_to caution_path(:level => "幹部権限")
         else
-            redirect_to edit_caution_path
+            redirect_to edit_caution_path(:level => "幹部権限")
         end
     end
 
@@ -32,12 +33,28 @@ class ApplicationController < ActionController::Base
             return
         elsif current_admin.admin_level < min
             if current_admin.admin_level == 0
-                redirect_to caution_path
+                redirect_to caution_path(:level => "レベル" + min.to_s + "以上の権限")
             else
-                redirect_to edit_caution_path
+                redirect_to edit_caution_path(:level => "レベル" + min.to_s + "以上の権限")
             end
         else
             return
+        end
+    end
+
+    def group_limit group
+        if !current_admin.subadmin
+            objects = GroupAdmin.where(admin_id: current_admin.id)
+            objects.each do |o|
+                if o.group_id == group
+                    return
+                end
+            end
+            if current_admin.admin_level == 0
+                redirect_to caution_path(:level => "グループ" + min.to_s + "の権限")
+            else
+                redirect_to edit_caution_path(:level => "グループ" + min.to_s + "の権限")
+            end
         end
     end
 
@@ -55,8 +72,8 @@ class ApplicationController < ActionController::Base
 
     def set_color
         @concept_color = "backGround: #3778ff; color: #000032;"
-        @base_color = "backGround: #c4dcff; color: #000032;"
-        @accent_color = "backGround: #ffff32; color: #000032;"
+        @base_color    = "backGround: #c4dcff; color: #000032;"
+        @accent_color  = "backGround: #ffff32; color: #000032;"
     end
     
 end

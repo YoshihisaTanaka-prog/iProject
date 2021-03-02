@@ -1,0 +1,10 @@
+<h3>運営内の業務連絡</h3>
+<%= link_to "チャットの種類選択に戻る", autho_chat_path %><br><br>
+
+<%= link_to '新しいグループの追加', autho_chat_admin_new_path %>
+
+<div>
+    <% @groups.each do |g| %>
+        <%= link_to g.name, autho_chat_admin_room_path(:id => g.id) %><br>
+    <% end %>
+</div>
