@@ -4,7 +4,7 @@ class LevelSettingsController < ApplicationController
 
     def index
         if params['mail'].blank?
-            @admins = Admin.all
+            @admins = Admin.where('id != ?', 0)
         else
             @admins = Admin.where(email: params['mail'])
         end

@@ -5,13 +5,12 @@
 </ul>
 
 <div class="chat-main">
-    <div>
-        <% @chats.each do |c| %>
+    <% @chats.each do |c| %>
         <div class="chat">
             <% if c.autho_id == current_admin.id %>
                 <div class="my-chat">
-                    <p style="float: right;"><%= c.autho_id %></p>
-                    <div class="message" style="float: right;">
+                        <p><%= Admin.find(c.autho_id).name %></p>
+                    <div class="message"">
                         <%= c.message %>
                         <% if !c.url.blank? %>
                             <a href="<%= c.url %>"></a>
@@ -20,8 +19,8 @@
                 </div>
             <% else %>
                 <div class="your-chat">
-                    <p style="float: left;"><%= c.autho_id %></p>
-                    <div class="message" style="float: left;">
+                    <p><%= Admin.find(c.autho_id).name %></p>
+                    <div class="message">
                         <%= c.message %>
                         <% if !c.url.blank? %>
                             <a href="<%= c.url %>"></a>
@@ -30,10 +29,9 @@
                 </div>
             <% end %>
         </div>
-        <% end %>
-    </div>
+    <% end %>
+    <%= form_tag autho_chat_admin_talk_path(:group_id => params['id'], :admin_id => current_admin.id), class:"chat-form" do %>
+        <%= text_field_tag "message","", style:"width: 19vw;" %>
+        <%= submit_tag "送信", style:"width: 5vw;" %>
+    <% end %>
 </div>
-<%= form_tag autho_chat_admin_talk_path(:group_id => params['id'], :admin_id => current_admin.id), class:"chat-form" do %>
-    <%= text_field_tag "message","", style:"width: 19vw;" %>
-    <%= submit_tag "送信", style:"width: 5vw;" %>
-<% end %>
