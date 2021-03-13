@@ -3,6 +3,7 @@ class PrefecturesController < ApplicationController
   before_action :set_prefecture, only: %i[ show edit update destroy ]
   before_action :authenticate_admin!
   before_action -> { normal_limit(1)}
+  layout 'autho', only: [:index]
 
   # GET /prefectures or /prefectures.json
   def index

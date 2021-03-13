@@ -1,5 +1,6 @@
 .chat-main {
     position: fixed;
+    top: 7vh;
     height: 75vh;
     width: 80vw;
     left: 10vh;
@@ -9,49 +10,75 @@
 
 .chat{
     position: relative;
-    margin: 1%;
+    width: 80vw;
 }
-.your-chat{
+
+.chat > .your-chat{
+    position: relative;
+    display: inline-block;
+    padding-left: 1vw;
+    padding-top: 1vmax;
+    width: 80vw;
+}
+.chat > .your-chat > .message{
     position: relative;
     float: left;
-    margin-left: 1vmax;
-    margin-top: 1vmax;
-}
-.your-chat > .message{
-    position: relative;
     max-width: 60vw;
     padding: 0.5em;
     border: 2px solid #000032;
     border-radius: 30px 30px 30px 0px;
+    overflow: hidden;
+    display: inline-block;
 }
-.your-chat > .message a{
+.chat > .your-chat > p{
+    float: left;
+    margin: 0px;
+    margin-left: 1vw;
+}
+.chat > .your-chat > .message a{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-
-.my-chat{
-    float: right;
-    position: relative;
-    margin-right: 1vmax;
-    margin-top: 1vmax;
+.chat > .your-chat > .message a:hover{
+    background-color: #3778ff;
 }
-.my-chat > .message{
+
+.chat > .my-chat{
     position: relative;
+    display: inline-block;
+    padding-right: 1vw;
+    padding-top: 1vmax;
+    width: 80vw;
+}
+.chat > .my-chat p{
+    float: right;
+    margin: 0px;
+    margin-right: 1vw;
+    text-align: right;
+}
+.chat > .my-chat > .message{
+    position: relative;
+    float: right;
     max-width: 60vw;
     padding: 0.5em;
     color: #c4dcff;
     background-color: #3778ff;
     border-radius: 30px 30px 0px 30px;
+    overflow: hidden;
+    display: inline-block;
 }
-.my-chat > .message a{
+.chat > .my-chat > .message a{
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+}
+.chat > .my-chat > .message a:hover{
+    background-color: #c4dcff;
 }
 
 .chat-form{

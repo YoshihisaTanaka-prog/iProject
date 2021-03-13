@@ -29,8 +29,8 @@
     <% @prefectures.each do |prefecture| %>
       <tr>
         <td><%= prefecture.name %></td>
-        <td><%= link_to 'Show', prefecture_path(prefecture.objectId) %></td>
-        <td><%= link_to 'Edit', edit_prefecture_path(prefecture.objectId) %></td>
+        <td><%= link_to '保存されたデータを見る', prefecture_path(prefecture.objectId) %></td>
+        <td><%= link_to '編集', edit_prefecture_path(prefecture.objectId) %></td>
         <td><%# link_to 'Destroy', prefectures_path(prefecture.objectId), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -39,4 +39,4 @@
 
 <br>
 
-<%= link_to 'New Prefecture', new_prefecture_path(:r_id => @region.objectId) %>
+<%= link_to '都道府県を追加', new_prefecture_path(:r_id => @region.objectId) %>

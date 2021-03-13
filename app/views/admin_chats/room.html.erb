@@ -1,31 +1,51 @@
-<ul>
-    <li><%= link_to "グループ脱退" , autho_chat_admin_room_path(:id => params['id']), method: :delete %></li>
-    <li><%= link_to "メンバー追加" , autho_chat_admin_room_path(:id => params['id']), method: :post %></li>
-    <li><%= link_to "メンバー一覧" , autho_chat_admin_room_members_path(:id => params['id']) %></li>
-</ul>
+<header style="<%= @concept_color %> width: 100vw;">
+    <div style="width: 100vw; height: 5vh; <%= @concept_color %>">
+        <nav style="width: 100vw; height: 5vh; display: inline;">
+                <ul style="list-style: none; float: left; height: 5vh; vertical-align: middle; padding: 0;">
+                    <li style="float: left; margin-left: 1rem; height: 5vh;"><%= link_to "　＜　",autho_chat_admin_path , style: @base_color + 'text-decoration: none; padding: 0.2em; position: relative; top: 1.5vh;' %></li>
+                </ul>
+            <span style="position: relative; top: 1.5vh; height 2vh; width: auto; font-size: 1.2em; font-weight: bold; text-align: center;">
+                　　　ルーム名：<%= @room.name %>
+            </span>
+                <ul style="list-style: none; float: right;">
+                    <% if !@room.isSpecial %>
+                        <li style="float: right; margin-right: 1rem; height: 5vh;"><%= link_to "グループ脱退" , autho_chat_admin_room_path(:id => params['id']), method: :delete, style: @base_color + 'text-decoration: none; padding: 0.2em; position: relative; top: 1.5vh;' %></li>
+                    <% end %>
+                    <li style="float: right; margin-right: 1rem; height: 5vh;"><%= link_to "メンバー追加" , autho_chat_admin_room_add_path(:id => params['id']), style: @base_color + 'text-decoration: none; padding: 0.2em; position: relative; top: 1.5vh;' %></li>
+                    <li style="float: right; margin-right: 1rem; height: 5vh;"><%= link_to "メンバー一覧" , autho_chat_admin_room_members_path(:id => params['id']), style: @base_color + 'text-decoration: none; padding: 0.2em; position: relative; top: 1.5vh;' %></li>
+                </ul>
+        </nav>
+    </div>
+</header>
 
 <div class="chat-main">
     <% @chats.each do |c| %>
         <div class="chat">
             <% if c.autho_id == current_admin.id %>
                 <div class="my-chat">
-                        <p><%= Admin.find(c.autho_id).name %></p>
                     <div class="message"">
                         <%= c.message %>
                         <% if !c.url.blank? %>
                             <a href="<%= c.url %>"></a>
                         <% end %>
                     </div>
+                    <p>
+                        <%= Admin.find(c.autho_id).name %><br>
+                        <%=  c.created_at %>
+                    </p>
                 </div>
             <% else %>
                 <div class="your-chat">
-                    <p><%= Admin.find(c.autho_id).name %></p>
                     <div class="message">
                         <%= c.message %>
                         <% if !c.url.blank? %>
                             <a href="<%= c.url %>"></a>
                         <% end %>
                     </div>
+                    <p>
+                        <%= Admin.find(c.autho_id).name %><br>
+                        <%=  c.created_at %>
+                    </p>
                 </div>
             <% end %>
         </div>

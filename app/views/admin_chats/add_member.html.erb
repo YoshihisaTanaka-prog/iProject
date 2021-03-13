@@ -1,0 +1,29 @@
+<header style="<%= @concept_color %> width: 100vw;">
+    <div style="width: 100vw; height: 5vh; <%= @concept_color %>">
+        <nav style="width: 100vw;">
+            <ul style="list-style: none; float: left;">
+                <li style="float: left; padding: 1rem;"><%= link_to "ルームに戻る", autho_chat_admin_room_path(:id => params["id"]), style: @base_color + 'text-decoration: none;' %></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<% if @admins.blank? %>
+    このルームには全ユーザーが参加しています。
+<% else %>
+    <table>
+        <tr>
+            <th>管理者名</th>
+            <th>メールアドレス</th>
+            <th>権限</th>
+            <th></th>
+        </tr>
+        <% @admins.each do |a| %>
+            <tr>
+                <td><%= a.name %></td>
+                <td><%= a.email %></td>
+                <td><%= a.level %></td>
+                <td><%= link_to "追加", autho_chat_admin_room_add_path(:room_id => params["id"], :admin_id => a.id), method: :post %></td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

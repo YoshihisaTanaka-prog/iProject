@@ -1,14 +1,34 @@
-<%= link_to "ルームに戻る", autho_chat_admin_room_path(:id => params["id"]) %>
+<header style="<%= @concept_color %> width: 100vw;">
+    <div style="width: 100vw; height: 5vh; <%= @concept_color %>">
+        <nav style="width: 100vw;">
+            <ul style="list-style: none; float: left;">
+                <li style="float: left; padding: 1rem;"><%= link_to "ルームに戻る", autho_chat_admin_room_path(:id => params["id"]), style: @base_color + 'text-decoration: none;' %></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
 <table>
     <tr>
         <th>名前</th><th>メールアドレス</th><th>権限</th>
+        <% if current_admin.admin or ( current_admin.subadmin and params["id"] != "2" ) %>
+            <th></th>
+        <% end %>
     </tr>
     <% @admins.each do |a| %>
         <tr>
             <td><%= a.name %></td>
             <td><%= a.email %></td>
             <td><%= a.level %></td>
+            <% if current_admin.admin or ( current_admin.subadmin and params["id"] != "2" ) %>
+                <% if a.admin %>
+                    <td></td>
+                <% elsif current_admin.subadmin and a.subadmin %>
+                    <td></td>
+                <% else %>
+                    <td><%= link_to "追放", autho_path %></td>
+                <% end %>
+            <% end %>
         </tr>
     <% end %>
 </table>

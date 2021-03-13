@@ -1,6 +1,8 @@
 class AdminChatsController < ApplicationController
     before_action :authenticate_admin!
     before_action -> { normal_limit(1)}
+    layout 'chat', except: [:index, :new]
+    layout 'autho', only: [:index]
 
     def index
         group_ids = GroupAdmin.where(admin_id: current_admin.id)
@@ -15,10 +17,26 @@ class AdminChatsController < ApplicationController
     def new
         normal_limit 2
         if request.post?
+            # グループの作成
+            admin_special_num = AdminGroup.where(isSpecial: true).count-1
             admin_group_object = AdminGroup.new(name: params["name"])
+            if params["isSpecial"] == "true"
+                admin_group_object.isSpecial = true
+                admin_group_object.special_id = admin_special_num
+            end
             admin_group_object.save
+            # グループにメンバーを追加
             group_admin_object = GroupAdmin.new(group_id: admin_group_object.id, admin_id: current_admin.id)
             group_admin_object.save
+            if params["isSpecial"] == "true"
+                admins = Admin.where(subadmin: true)
+                admins.each do |a|
+                    if a.id != current_admin.id
+                        gao = GroupAdmin.new(group_id: admin_group_object.id, admin_id: a.id)
+                        gao.save
+                    end
+                end
+            end
             redirect_to autho_chat_admin_path
         end
     end
@@ -38,6 +56,12 @@ class AdminChatsController < ApplicationController
             if params['id'] == 2
                 strong_limit
             end
+            @room = AdminGroup.find(params['id'].to_i)
+            if @room.isSpecial
+                if @room.special_id > 0
+                    group_limit @room.special_id
+                end
+            end
             @chats = AdminChat.where(group_id: params['id']).order(:id)
         end
     end
@@ -56,6 +80,30 @@ class AdminChatsController < ApplicationController
         admins.each do |a|
             admin = Admin.find(a.admin_id)
             @admins.push(admin)
+        end
+    end
+
+    def add_member
+        if request.post?
+            object = GroupAdmin.new()
+            object.group_id = params['room_id'].to_i
+            object.admin_id = params['admin_id'].to_i
+            object.save
+            redirect_to autho_chat_admin_room_path(id: params['room_id'])
+        else
+            admins = Admin.all
+            ads = GroupAdmin.where(group_id: params['id'].to_s)
+            current_member = []
+            ads.each do |a|
+                admin = Admin.find(a.admin_id)
+                current_member.push(admin)
+            end
+            @admins = []
+            admins.each do |a|
+                if !current_member.include?(a)
+                    @admins.push(a)
+                end
+            end
         end
     end
 

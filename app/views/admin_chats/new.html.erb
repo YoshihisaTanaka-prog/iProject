@@ -1,4 +1,15 @@
 <%= form_tag autho_chat_admin_new_path do %>
-    <%= text_field_tag "name" %>
+    <div>
+        <%= label_tag "グループ名" %><br>
+        <%= text_field_tag "name" %>
+    </div>
+    <% if current_admin.subadmin? %>
+        <div>
+            <%= label_tag "役職用グループですか" %><br>
+            <%= select_tag "isSpecial", options_for_select([["はい", true], ["いいえ", false]], false) %>
+        </div>
+    <% else %>
+        <%= hidden_field_tag "isSpecial", false unless current_admin.subadmin? %>
+    <% end %>
     <%= submit_tag "グループを作成" %>
 <%end%>

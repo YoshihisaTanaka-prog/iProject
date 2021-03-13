@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :set_color
-
+    before_action :make_option
+    
     require 'rack'
     require 'ncmb'
     NCMB.initialize(
@@ -24,7 +25,7 @@ class ApplicationController < ActionController::Base
         elsif current_admin.admin_level == 0
             redirect_to caution_path(:level => "幹部権限")
         else
-            redirect_to edit_caution_path(:level => "幹部権限")
+            redirect_to autho_caution_path(:level => "幹部権限")
         end
     end
 
@@ -35,7 +36,7 @@ class ApplicationController < ActionController::Base
             if current_admin.admin_level == 0
                 redirect_to caution_path(:level => "レベル" + min.to_s + "以上の権限")
             else
-                redirect_to edit_caution_path(:level => "レベル" + min.to_s + "以上の権限")
+                redirect_to autho_caution_path(:level => "レベル" + min.to_s + "以上の権限")
             end
         else
             return
@@ -46,14 +47,17 @@ class ApplicationController < ActionController::Base
         if !current_admin.subadmin
             objects = GroupAdmin.where(admin_id: current_admin.id)
             objects.each do |o|
-                if o.group_id == group
-                    return
+                g = AdminGroup.find(o.group_id)
+                if g.isSpecial
+                    if g.special_id == group
+                        return
+                    end
                 end
             end
             if current_admin.admin_level == 0
-                redirect_to caution_path(:level => "グループ" + min.to_s + "の権限")
+                redirect_to caution_path(:level => "グループ" + group.to_s + "の権限")
             else
-                redirect_to edit_caution_path(:level => "グループ" + min.to_s + "の権限")
+                redirect_to autho_caution_path(:level => "グループ" + group.to_s + "の権限")
             end
         end
     end
@@ -67,13 +71,30 @@ class ApplicationController < ActionController::Base
     end
 
     def make_option
-        @option = {Top: nil, Chat: "Chat", ChatGroup: "ChatGroup", ChatRead: "ChatRead", Domain: "Domain", OneOnOneChat: "OneOnOneChat",Prefecture: "Region",Review: "Review", StudentParameter: "StudentParameter", TeacherParameter: "TeacherParameter", UserChatGroup: "UserChatGroup"}
+        if admin_signed_in?
+            if current_admin.subadmin
+                @options = [["権限の管理","levelsetting"]]
+            else
+                @options = []
+            end
+            @options.push(["チャット","Chat"])
+            @options.push(["ドメインの編集","Domain"])
+            @options.push(["都道府県の編集","Region"])
+            @options.push(["生徒の管理","StudentParameter"])
+            @options.push(["教師の管理","TeacherParameter"])
+        end
     end
 
     def set_color
         @concept_color = "backGround: #3778ff; color: #000032;"
         @base_color    = "backGround: #c4dcff; color: #000032;"
         @accent_color  = "backGround: #ffff32; color: #000032;"
+    end
+
+    before_action :configure_permitted_parameters, if: :devise_controller?
+
+    def configure_permitted_parameters
+        devise_parameter_sanitizer.permit(:sign_up,keys: [:name])
     end
     
 end

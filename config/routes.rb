@@ -38,11 +38,15 @@ Rails.application.routes.draw do
   post 'autho/chat/admin/new', to: 'admin_chats#new'
   post 'autho/chat/admin/talk', to: 'admin_chats#talk'
   get 'autho/chat/admin/room/members', to: 'admin_chats#members'
+  get 'autho/chat/admin/room/add', to: 'admin_chats#add_member'
+  post 'autho/chat/admin/room/add', to: 'admin_chats#add_member'
   get 'autho/chat/admin/room', to: 'admin_chats#room'
   post 'autho/chat/admin/room', to: 'admin_chats#room'
   delete 'autho/chat/admin/room', to: 'admin_chats#room'
 
   get 'autho/levelsetting', to: 'level_settings#index'
   post 'autho/levelsetting', to: 'level_settings#edit'
+  get 'autho/levelsetting/group', to: 'level_settings#group'
+  post 'autho/levelsetting/group', to: 'level_settings#group'
 
 end

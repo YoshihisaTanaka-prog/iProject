@@ -1,6 +1,6 @@
 <h1>Class：Domain</h1>
 <%= form_tag autho_path, method: :get do %>
-    <%= select_tag 'class', options_for_select(@option, "Domain"), include_blank: false %>
+    <%= select_tag 'class', options_for_select(@options, "Domain"), include_blank: false %>
     <%= submit_tag("選択") %>
 <% end %>
 <br>

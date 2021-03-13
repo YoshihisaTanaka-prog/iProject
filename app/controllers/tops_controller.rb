@@ -1,9 +1,10 @@
 class TopsController < ApplicationController
     before_action :authenticate_admin!, only: :caution
+    layout 'application'
 
     def index
         if admin_signed_in?
-            redirect_to  destroy_admin_session_path
+            redirect_to  autho_path
         end
     end
 

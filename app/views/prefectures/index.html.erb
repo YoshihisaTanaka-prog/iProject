@@ -18,8 +18,8 @@
         <td><%= prefecture.regionId %></td>
         <td><%= prefecture.objectId %></td>
         <td><%= prefecture.name %></td>
-        <td><%= link_to 'Show', prefecture %></td>
-        <td><%= link_to 'Edit', edit_prefecture_path(prefecture) %></td>
+        <td><%= link_to '保存データを見る', prefecture %></td>
+        <td><%= link_to '編集', edit_prefecture_path(prefecture) %></td>
         <td><%# link_to 'Destroy', prefecture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Prefecture', new_prefecture_path %>
+<%= link_to '都道府県を追加', new_prefecture_path %>

@@ -1,7 +1,8 @@
 class CommandsController < ApplicationController
     before_action :authenticate_admin!
-    before_action :make_option , only: [:index]
+    before_action :make_option
     before_action -> { normal_limit(1)}
+    layout 'autho', only: [:top]
 
     def top
     end

@@ -15,8 +15,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     
     <header style="<%= @concept_color %> width: 100vw;">
-      <div style="width: 100vw; height: 5vh; float: right; <%= @concept_color %>">
+      <div style="width: 100vw; height: 5vh; <%= @concept_color %>">
         <nav style="width: 100vw;">
+          <% if admin_signed_in?%>
+            <ul style="list-style: none; float: left; font-size: 1.2em; font-weight: bold;">
+              <li style="float: left; padding: 1rem;"><%= current_admin.name %>さん</li>
+              <li style="float: left; padding: 1rem;"><%= current_admin.level %>
+            </ul>
+          <% end %>
           <ul style="list-style: none; float: right;">
             <% if admin_signed_in? %>
               <li style="float: right; padding: 1rem;"><%= link_to "　ログアウト　", destroy_admin_session_path, method: :delete, style: @base_color + 'text-decoration: none;' %></li>

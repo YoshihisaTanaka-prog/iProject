@@ -1,0 +1,21 @@
+<br>
+<h3><%= @admin.name %>さん(<%= @admin.email %>)</h3>
+<br><br>
+
+<table>
+    <tr>
+        <th>役職名</th><th>状態</th>
+    </tr>
+    <% @groups.each do |g| %>
+        <tr>
+            <td><%= g.name %></td>
+            <td>
+                <% if GroupAdmin.where(group_id: g.id, admin_id: @admin.id).blank? %>
+                    <%= link_to "未参加", autho_path %>
+                <% else %>
+                    <%= link_to "参加中", autho_path %>
+                <% end %>
+            </td>
+        </tr>
+    <% end %>
+</table>
