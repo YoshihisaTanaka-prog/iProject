@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   post 'autho/chat/admin/new', to: 'admin_chats#new'
   post 'autho/chat/admin/talk', to: 'admin_chats#talk'
   get 'autho/chat/admin/room/members', to: 'admin_chats#members'
+  post 'autho/chat/admin/room/members', to: 'admin_chats#members'
   get 'autho/chat/admin/room/add', to: 'admin_chats#add_member'
   post 'autho/chat/admin/room/add', to: 'admin_chats#add_member'
   get 'autho/chat/admin/room', to: 'admin_chats#room'

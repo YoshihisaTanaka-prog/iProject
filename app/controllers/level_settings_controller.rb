@@ -55,9 +55,16 @@ class LevelSettingsController < ApplicationController
     def group
         if request.post?
             group = AdminGroup.where(special_id: params['group_id'].to_i).first
-            group_admin_object = GroupAdmin.new(group_id: group.id, admin_id: params['admin_id'].to_i)
-            group_admin_object.save
-            redirect_to autho_levelsetting_path
+            group_admin_object = GroupAdmin.where(group_id: group.id, admin_id: params['admin_id'].to_i)
+            if group_admin_object.blank?
+                group_admin_object = GroupAdmin.new(group_id: group.id, admin_id: params['admin_id'].to_i)
+                group_admin_object.save
+            else
+                group_admin_object.each do |g|
+                    g.delete
+                end
+            end
+            redirect_to autho_levelsetting_group_path(:id => params["admin_id"])
         else
             @admin = Admin.find(params['id'].to_i)
             @groups = AdminGroup.where(isSpecial: true).where.not(special_id: 0).where.not(special_id: -1)

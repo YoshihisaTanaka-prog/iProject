@@ -11,7 +11,7 @@
 <table>
     <tr>
         <th>名前</th><th>メールアドレス</th><th>権限</th>
-        <% if current_admin.admin or ( current_admin.subadmin and params["id"] != "2" ) %>
+        <% if current_admin.subadmin and params["id"] != "2" %>
             <th></th>
         <% end %>
     </tr>
@@ -20,13 +20,30 @@
             <td><%= a.name %></td>
             <td><%= a.email %></td>
             <td><%= a.level %></td>
-            <% if current_admin.admin or ( current_admin.subadmin and params["id"] != "2" ) %>
+            
+            <% if AdminGroup.find(params["id"].to_i).isSpecial %>
+                <% if current_admin.subadmin and params["id"] != "2" %>
+                    <% if a.subadmin %>
+                        <td></td>
+                    <% else %>
+                        <td><%= link_to "追放", autho_chat_admin_room_members_path(:room_id => params["id"], :admin_id => a.id), method: :post %></td>
+                    <% end %>
+                <% end %>
+            <% else %>
                 <% if a.admin %>
                     <td></td>
-                <% elsif current_admin.subadmin and a.subadmin %>
-                    <td></td>
+                <% elsif a.subadmin %>
+                    <% if current_admin.admin %>
+                        <td><%= link_to "追放", autho_chat_admin_room_members_path(:room_id => params["id"], :admin_id => a.id), method: :post %></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
                 <% else %>
-                    <td><%= link_to "追放", autho_path %></td>
+                    <% if current_admin.admin_level >= 10 and current_admin.admin_level > a.admin_level %>
+                        <td><%= link_to "追放", autho_chat_admin_room_members_path(:room_id => params["id"], :admin_id => a.id), method: :post %></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
                 <% end %>
             <% end %>
         </tr>

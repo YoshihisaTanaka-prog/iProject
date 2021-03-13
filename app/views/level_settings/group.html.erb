@@ -11,9 +11,9 @@
             <td><%= g.name %></td>
             <td>
                 <% if GroupAdmin.where(group_id: g.id, admin_id: @admin.id).blank? %>
-                    <%= link_to "未参加", autho_path %>
+                    <%= link_to "未参加", autho_levelsetting_group_path(:group_id => g.special_id, :admin_id => params["id"]), method: :post %>
                 <% else %>
-                    <%= link_to "参加中", autho_path %>
+                    <%= link_to "参加中", autho_levelsetting_group_path(:group_id => g.special_id, :admin_id => params["id"]), method: :post %>
                 <% end %>
             </td>
         </tr>
