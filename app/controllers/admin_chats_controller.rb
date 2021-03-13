@@ -75,11 +75,19 @@ class AdminChatsController < ApplicationController
     end
 
     def members
-        admins = GroupAdmin.where(group_id: params['id'].to_s)
-        @admins = []
-        admins.each do |a|
-            admin = Admin.find(a.admin_id)
-            @admins.push(admin)
+        if request.post?
+            admin = GroupAdmin.where(group_id: params['room_id'].to_i, admin_id: params['admin_id'].to_i).first
+            admin.delete
+            redirect_to autho_chat_admin_room_members_path(:id => params["room_id"] )
+        else
+            admins = GroupAdmin.where(group_id: params['id'].to_i)
+            @admins = []
+            admins.each do |a|
+                if a.admin_id != 0
+                    admin = Admin.find(a.admin_id)
+                    @admins.push(admin)
+                end
+            end
         end
     end
 
@@ -100,7 +108,7 @@ class AdminChatsController < ApplicationController
             end
             @admins = []
             admins.each do |a|
-                if !current_member.include?(a)
+                if !current_member.include?(a) and a.id != 0 and a.level != "レベル0"
                     @admins.push(a)
                 end
             end
