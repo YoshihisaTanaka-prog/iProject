@@ -29,7 +29,7 @@
             <% else %>
               <li style="float: right; padding: 1rem;"><%= link_to "　ログイン　", autho_path, style: @base_color + 'text-decoration: none;' %></li>
             <% end %>
-            <li style="float: right; padding: 1rem;"><%= link_to "　Help　",   '#', style: @base_color + 'text-decoration: none;' %></li>
+            <li style="float: right; padding: 1rem;"><%= link_to "　トキネーター　", "https://tokinator.herokuapp.com", style: @base_color + 'text-decoration: none;' %></li>
             <% if admin_signed_in? %>
               <li style="float: right; padding: 1rem;"><%= link_to "　管理者用のトップ　", autho_path, style: @base_color + 'text-decoration: none;' %></li>
             <% else %>
