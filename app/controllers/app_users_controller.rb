@@ -6,7 +6,7 @@ class AppUsersController < ApplicationController
             url = "/autho/domain?cn=" + params["domain"]
             object1 = AdminChat.new()
             object1.autho_id = 0
-            object1..group_id = 3
+            object1.group_id = 3
             object1.message = msg
             object1.url = url
             if object1.save
