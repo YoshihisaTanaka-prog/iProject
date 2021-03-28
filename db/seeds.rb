@@ -10,7 +10,7 @@ Admin.create(id: 1, name: '田中義久',email: 'nakanaka.tanaka4413@gmail.com',
 Admin.create(id: 0, name: 'TeLecture-bot',email: 'vbijkslaebrjvah@nviwbrhtibnsoihu', password: 'nvbuwrbaolhvralobalhreebvjaelijeveaiqjk', subadmin: true, admin: false)
 AdminGroup.create(name: "全体", isSpecial: true, special_id: 0)
 AdminGroup.create(name: "幹部", isSpecial: true, special_id: -1)
-AdminGroup.create(name: "サポートセンター", isSpecial: true, special_id: -1)
+AdminGroup.create(name: "サポートセンター", isSpecial: true, special_id: 1)
 
 Admin.all.each do |a|
     AdminGroup.all.each do |g|
