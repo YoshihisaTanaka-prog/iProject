@@ -1,5 +1,7 @@
 class AppUsersController < ApplicationController
 
+    skip_before_action :verify_authenticity_token
+
     def domain
         if request.post? and check_token(params["token"])
             msg = params["id"] + "さんが" + params["domain"] + "というドメインを使用しました。\n確認お願いします。"
