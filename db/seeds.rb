@@ -12,7 +12,7 @@ AdminGroup.create(name: "全体", isSpecial: true, special_id: 0)
 AdminGroup.create(name: "幹部", isSpecial: true, special_id: -1)
 AdminGroup.create(name: "サポートセンター", isSpecial: true, special_id: -1)
 
-Admin.all.each do |admin|
+Admin.all.each do |a|
     AdminGroup.all.each do |g|
         GroupAdmin.create(group_id: g.id, admin_id: a.id)
     end
