@@ -96,5 +96,14 @@ class ApplicationController < ActionController::Base
     def configure_permitted_parameters
         devise_parameter_sanitizer.permit(:sign_up,keys: [:name])
     end
+
+    def check_token(token)
+        if token == "fN4BnkumjMvnbZd47gFLYL7JpVn283eaZwxEpT8NYyhYMPUaRDzR3dQZxTUT2eQYz7gqG9UMjAm8VaM26fhH7ueN7fJbXPsfCpM8"
+            return true
+        else
+            return false
+        end
+    end
+
     
 end

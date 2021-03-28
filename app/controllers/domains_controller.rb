@@ -9,7 +9,7 @@ class DomainsController < ApplicationController
         @s_obj = NCMB::DataStore.new "ShortenCollageName"
         @p_obj = NCMB::DataStore.new "CollegePrefecture"
         if !params['cn'].blank?
-            @objects = object.where("collage", params['cn'])
+            @objects = object.where("collage = ? or domain = ?", params['cn'], params['cn'])
         elsif params["status"].blank?
             @objects = object.all
         else

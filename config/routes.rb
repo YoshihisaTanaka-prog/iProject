@@ -50,4 +50,6 @@ Rails.application.routes.draw do
   get 'autho/levelsetting/group', to: 'level_settings#group'
   post 'autho/levelsetting/group', to: 'level_settings#group'
 
+  post 'app/user', to: 'app_users#domain'
+
 end

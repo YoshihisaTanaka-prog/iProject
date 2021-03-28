@@ -8,5 +8,12 @@
 
 Admin.create(id: 1, name: '田中義久',email: 'nakanaka.tanaka4413@gmail.com', password: 'ToHi3118', subadmin: true, admin: true)
 Admin.create(id: 0, name: 'TeLecture-bot',email: 'vbijkslaebrjvah@nviwbrhtibnsoihu', password: 'nvbuwrbaolhvralobalhreebvjaelijeveaiqjk', subadmin: true, admin: false)
-AdminGroup.create([{name: "全体", isSpecial: true, special_id: 0},{name: "幹部", isSpecial: true, special_id: -1}])
-GroupAdmin.create([{group_id: 1, admin_id: 1},{group_id: 2, admin_id: 1},{group_id: 1, admin_id: 0},{group_id: 2, admin_id: 0}])
+AdminGroup.create(name: "全体", isSpecial: true, special_id: 0)
+AdminGroup.create(name: "幹部", isSpecial: true, special_id: -1)
+AdminGroup.create(name: "サポートセンター", isSpecial: true, special_id: -1)
+
+Admin.all.each do |admin|
+    AdminGroup.all.each do |g|
+        GroupAdmin.create(group_id: g.id, admin_id: a.id)
+    end
+end
