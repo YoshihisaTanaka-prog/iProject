@@ -1,3 +1,10 @@
+<select name="cont" onChange="location.href=value;">
+    <option value="/autho/limitation"> ---選択--- </option>
+<% @controllers.each do |c| %>
+    <option value="/autho/limitation?cont=<%= c %>"<%= " selected" if params["cont"] == c %>> <%= c %> </option>
+<% end %>
+</select><br>
+<%= params["cont"] %><br>
 <% @controllers.each do |c| %>
     <%= c %><br>
 <% end %>
