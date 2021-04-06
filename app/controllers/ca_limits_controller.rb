@@ -1,0 +1,2 @@
+class CaLimitsController < ApplicationController
+end
