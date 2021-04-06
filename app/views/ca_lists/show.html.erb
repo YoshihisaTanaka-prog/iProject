@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>コントローラー</th><th>アクション</th><th>制限</th><th>編集</th>
+    </tr>
+    <tr>
+        <td><%= @ca_list.controller_name %></td>
+        <td><%= @ca_list.action_name %></td>
+        <td>
+            <% @ca_list.name_list.each do |name| %>
+                <%= name %> ,
+            <% end %>
+            Lv<%= @ca_list.minimum_level %>
+        </td>
+        <td><%= link_to "編集ページへ", autho_limitation_edit_path(:id => @ca_list.id) %></td>
+    </tr>
+</table>

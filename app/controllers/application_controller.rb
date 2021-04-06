@@ -29,6 +29,59 @@ class ApplicationController < ActionController::Base
         end
     end
 
+    def limit c_name, a_name
+        cals = CaList.where(controller_name: c_name, action_name: a_name)
+        if !cal.blank?
+            cal = cals.first
+            minimum_level = cal.minimum_level
+            if cal.is_only_admin
+                if current_admin.admin
+                    return
+                else
+                    if current_admin.admin_level == 0
+                        redirect_to caution_path(:level => "最高権限のみ")
+                    else
+                        redirect_to autho_caution_path(:level => "最高権限のみ")
+                    end
+                end
+            elsif cal.is_only_subadmin
+                if current_admin.subadmin
+                    return
+                else
+                    if current_admin.admin_level == 0
+                        redirect_to caution_path(:level => "準最高権限のみ")
+                    else
+                        redirect_to autho_caution_path(:level => "準最高権限のみ")
+                    end
+                end
+            elsif cal.is_only_level
+                normal_limit(minimum_level)
+            else
+                # グループ分け
+                cal_limits = cal.ca_limits.order(:admin_group_id).pluck(:admin_group_id)
+                ags = GroupAdmin.where(admin_id: current_admin.id).order(:group_id).pluck(:group_id)
+                ags.each do |a|
+                    if cal_limits.include?(a)
+                        normal_limit(minimum_level)
+                    end
+                end
+                if current_admin.admin_level == 0
+                    redirect_to caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                else
+                    redirect_to autho_caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                end
+            end
+        end
+    end
+
+    def group_list list
+        ret = ""
+        list.each do |l|
+            ret += l.to_s + ", "
+        end
+        return ret
+    end
+
     def normal_limit min
         if current_admin.subadmin
             return
@@ -43,25 +96,6 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    def group_limit group
-        if !current_admin.subadmin
-            objects = GroupAdmin.where(admin_id: current_admin.id)
-            objects.each do |o|
-                g = AdminGroup.find(o.group_id)
-                if g.isSpecial
-                    if g.special_id == group
-                        return
-                    end
-                end
-            end
-            if current_admin.admin_level == 0
-                redirect_to caution_path(:level => "グループ" + group.to_s + "の権限")
-            else
-                redirect_to autho_caution_path(:level => "グループ" + group.to_s + "の権限")
-            end
-        end
-    end
-
     def after_sign_in_path_for(resource)
         autho_path
     end
@@ -72,7 +106,9 @@ class ApplicationController < ActionController::Base
 
     def make_option
         if admin_signed_in?
-            if current_admin.subadmin
+            if current_admin.admin
+                @options = [["アクセス権の管理","limitation"],["権限の管理","levelsetting"]]
+            elsif current_admin.subadmin
                 @options = [["権限の管理","levelsetting"]]
             else
                 @options = []

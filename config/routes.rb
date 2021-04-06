@@ -11,11 +11,9 @@ Rails.application.routes.draw do
   post 'caution', to: 'tops#caution'
   get 'autho/caution', to: 'edits#caution'
 
-  # 管理者用のトップページなどのURL
+  # 管理者用のトップページとアクセス権の注意のURL
   get 'autho', to: 'edits#index'
-  post 'autho/create' , to: 'edits#create'
-  get 'autho/edit' , to: 'edits#edit'
-  post 'autho/update' , to: 'edits#update'
+  get 'autho/caution', to: 'edits#caution'
 
   # 大学名などのデータをするためのURL
   get 'autho/domain', to: 'domains#index'
@@ -62,11 +60,11 @@ Rails.application.routes.draw do
   # ページ側のアクセス権を制限するためのページ
   get 'autho/limitation', to: 'ca_lists#index'
   get 'autho/limitation/new', to: 'ca_lists#new'
-  post 'autho/limitation/new', to: 'ca_lists#create'
+  post 'ca_lists', to: 'ca_lists#create'
   get 'autho/limitation/show', to: 'ca_lists#show'
   get 'autho/limitation/edit', to: 'ca_lists#edit'
-  post 'autho/limitation/edit', to: 'ca_lists#update'
-  delete 'autho/limitation/destroy', to: 'ca_lists#destroy'
+  patch 'ca_list', to: 'ca_lists#update'
+  delete 'ca_lists', to: 'ca_lists#destroy'
   get 'autho/limitation/editgroup', to: 'ca_limits#index'
 
 

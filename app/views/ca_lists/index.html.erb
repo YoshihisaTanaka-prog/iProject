@@ -1,0 +1,19 @@
+<% @controllers.each do |c| %>
+    <%= c %><br>
+<% end %>
+
+<%= link_to "+", autho_limitation_new_path %>
+
+<table>
+    <tr>
+        <th>コントローラー</th><th>アクション</th><th>詳細</th><th>編集</th>
+    </tr>
+    <% @ca_lists.each do |c| %>
+        <tr>
+            <td><%= c.controller_name %></td>
+            <td><%= c.action_name %></td>
+            <td><%= link_to "詳細ページへ", autho_limitation_show_path(:id => c.id) %></td>
+            <td><%= link_to "編集ページへ", autho_limitation_edit_path(:id => c.id) %></td>
+        </tr>
+    <% end %>
+</table>

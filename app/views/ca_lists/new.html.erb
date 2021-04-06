@@ -1,0 +1,8 @@
+<%= form_with model: @ca_list do |f| %>
+    <%= f.text_field :controller_name %> <br>
+    <%= f.text_field :action_name %> <br>
+    <%= f.text_field :path_name %> <br>
+    <%= f.select :option,[["デフォルト", ""],["権限レベルのみで制限","level"],["準最高権限以上","subadmin"],["最高権限のみ","admin"]] %><br>
+    <%= f.number_field :level%><br>
+    <%= f.submit "追加" %>
+<% end %>

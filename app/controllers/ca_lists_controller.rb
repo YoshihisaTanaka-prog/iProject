@@ -6,11 +6,11 @@ class CaListsController < ApplicationController
     #index->データの一覧の表示
     def index
         #mythreadのデータの全件取得
-        @controllers = CAList.all.order(:controller_name).pluck(:controller_name).unique
+        @controllers = CaList.all.order(:controller_name).pluck(:controller_name).uniq
         if params[:controller]
-            @ca_lists = CAList.where(controller_name: params[:controller])
+            @ca_lists = CaList.where(controller_name: params[:controller])
         else
-            @ca_lists = CAList.all
+            @ca_lists = CaList.all
         end
     end
 
@@ -22,21 +22,24 @@ class CaListsController < ApplicationController
     #new->新規作成ページの表示
     def new
         #モデルオブジェクトの生成
-        @ca_list = CAList.new
+        @ca_list = CaList.new
     end
 
     #create->新規データの登録
     def create
         #formのデータを受け取る
-        @ca_list =CAList.create(ca_list_params)
-        case params[:admin]
+        @ca_list =CaList.create(ca_list_params)
+        level = params[:level].to_i
+        if level > 1
+            @ca_list.minimum_level = level
+        end
+        case params[:option]
+        when "level"
+            @ca_list.is_only_level = true
         when "subadmin"
-            @ca_list.subadmin = true
-            @ca_list.admin = true
+            @ca_list.is_only_subadmin = true
         when "admin"
-            @ca_list.admin = true
-        else
-            break            
+            @ca_list.is_only_admin = true            
         end
         #saveメソッドでデータをセーブ　*newメソッド + saveメソッド = createメソッド
         if @ca_list.save
@@ -56,17 +59,19 @@ class CaListsController < ApplicationController
     #update->編集のアップデート
     def update
         #編集データの取得
-        if @ca_list.update(ca_list_params)
-            case params[:admin]
-            when "subadmin"
-                @ca_list.subadmin = true
-                @ca_list.admin = true
-            when "admin"
-                @ca_list.admin = true
-            else
-                @ca_list.subadmin = false
-                @ca_list.admin = false 
-            end
+        @ca_list.controller_name = params[:controller_name]
+        @ca_list.action_name = params[:action_name]
+
+        case params[:option]
+        when "level"
+            @ca_list.is_only_level = true
+        when "subadmin"
+            @ca_list.is_only_subadmin = true
+        when "admin"
+            @ca_list.is_only_admin = true
+        end
+
+        if @ca_list.save
             #updateが完了したら一覧ページへリダイレクト
             redirect_to autho_limitation_path
         else
@@ -86,7 +91,7 @@ class CaListsController < ApplicationController
     private
     #strong parameters リクエストパラメターの検証（これがないとうまくいかないので注意）
     def ca_list_params
-        params.require(:ca_list).permit(:controller_name,:action_name)
+        params.require(:ca_list).permit(:controller_name, :action_name, :path_name)
     end
 
     #共通処理なので、before_actionで呼び出している
@@ -95,6 +100,6 @@ class CaListsController < ApplicationController
             redirect_to autho_limitation_path
         end
         #特定データの取得
-        @ca_list = CAList.find(params[:id])
+        @ca_list = CaList.find(params[:id].to_i)
     end
 end

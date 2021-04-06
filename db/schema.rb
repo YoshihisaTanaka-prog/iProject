@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_11_102523) do
+ActiveRecord::Schema.define(version: 2021_04_05_151040) do
 
   create_table "admin_chats", force: :cascade do |t|
     t.integer "autho_id"
@@ -44,6 +44,25 @@ ActiveRecord::Schema.define(version: 2021_03_11_102523) do
     t.string "name", default: "", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "ca_limits", force: :cascade do |t|
+    t.integer "ca_list_id"
+    t.integer "admin_group_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ca_lists", force: :cascade do |t|
+    t.string "controller_name", default: "", null: false
+    t.string "action_name", default: "", null: false
+    t.string "path_name", default: "", null: false
+    t.boolean "is_only_subadmin", default: false, null: false
+    t.boolean "is_only_admin", default: false, null: false
+    t.boolean "is_only_level", default: false, null: false
+    t.integer "minimum_level", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "command_chats", force: :cascade do |t|

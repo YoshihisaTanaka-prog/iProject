@@ -19,7 +19,8 @@ class EditsController < ApplicationController
                 redirect_to autho_chat_path
             when "levelsetting" then
                 redirect_to autho_levelsetting_path
-            else
+            when "limitation"
+                redirect_to autho_limitation_path
             end
         end
     end
@@ -48,52 +49,6 @@ class EditsController < ApplicationController
                     @rest_time = time - Time.current
                 end
             end
-        end
-    end
-
-    def create
-        object = NCMB::DataStore.new params["class"]
-        case params["class"]
-        when "Chat"
-            chat = object.new(chatGroupId: params["chatGroupId"], isGroup: params["isGroup"], message: params["message"])
-            chat.acl = nil
-            chat.save
-            redirect_to root_path(:class => params["class"])
-        when "Domain"
-            if object.where("domain", params["domain"]).first.blank?
-                domain = object.new(domain: params["domain"], collage: params["collage"], shortenCollege: params["shortenCollege"], prefecture: params["prefecture"])
-                domain.acl = nil
-                domain.save
-                redirect_to root_path(:class => params["class"])
-            else
-                obj = object.where("domain", params["domain"]).first
-                id = obj.objectId
-                msg = "ドメインが存在するので、編集画面にリダイレクトしました。"
-                redirect_to autho_path(:class => params["class"], :msg => msg, :id => id)
-            end
-        else
-            redirect_to root_path(:class => params["class"])
-        end
-    end
-
-    def edit
-        object = NCMB::DataStore.new params["class"]
-        @obj = object.where("objectId", params['id']).first
-    end
-
-    def update
-        object = NCMB::DataStore.new params["class"]
-        obj = object.where("objectId", params["objectId"]).first
-        case params["class"]
-        when "Domain"
-            obj.domain = params["domain"]
-            obj.collage = params["collage"]
-            obj.shortenCollege = params["shortenCollege"]
-            obj.prefecture = params["prefecture"]
-            obj.acl = nil
-            obj.save
-            redirect_to root_path(:class => params["class"])
-        else
         end
     end
 
