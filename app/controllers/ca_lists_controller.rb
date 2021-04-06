@@ -29,6 +29,9 @@ class CaListsController < ApplicationController
     def create
         #formのデータを受け取る
         @ca_list =CaList.create(ca_list_params)
+        if @ca_list.path_name[0,1] != '/'
+            @ca_list.path_name = '/' + @ca_list.path_name
+        end
         level = params[:level].to_i
         if level > 1
             @ca_list.minimum_level = level
