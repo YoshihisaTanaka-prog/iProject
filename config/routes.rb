@@ -65,7 +65,10 @@ Rails.application.routes.draw do
   get 'autho/limitation/edit', to: 'ca_lists#edit'
   patch 'ca_list', to: 'ca_lists#update'
   delete 'ca_lists', to: 'ca_lists#destroy'
-  get 'autho/limitation/editgroup', to: 'ca_limits#index'
+  get 'autho/limitation/showgroup', to: 'ca_limits#index'
+  get 'autho/limitation/addgroup', to: 'ca_limits#new'
+  post 'autho/limitation/addgroup', to: 'ca_limits#create'
+  delete 'autho/limitation/deletegroup', to: 'ca_limits#delete'
 
 
   # アプリとの通信用

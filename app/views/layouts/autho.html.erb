@@ -39,16 +39,18 @@
         </nav>
       </div>
     </header><br>
-    <center>
-    <h3>メニューを選択</h3>
-    <%= form_tag autho_path, method: :get do %>
-      <%= select_tag 'class', options_for_select(@options, 1), include_blank: false %>
-      <%= submit_tag("選択") %>
-    <% end %>
-    </center>
-    <hr>
 
-    <%= yield %>
+    <main>
+      <center>
+        <h3>メニューを選択</h3>
+        <%= form_tag autho_path, method: :get do %>
+          <%= select_tag 'class', options_for_select(@options, 1), include_blank: false %>
+          <%= submit_tag("選択") %>
+        <% end %>
+      </center>
+      <hr>
+      <%= yield %>
+    </main>
 
     <footer>
      <div style="width: 100vw; height: 5vh; float: right; <%= @concept_color %>position: absolute; bottom: 0;">
