@@ -64,6 +64,11 @@ class CaListsController < ApplicationController
         #編集データの取得
         @ca_list.controller_name = params[:controller_name]
         @ca_list.action_name = params[:action_name]
+        
+        level = params[:level].to_i
+        if level > 1
+            @ca_list.minimum_level = level
+        end
 
         case params[:option]
         when "level"

@@ -33,11 +33,14 @@ Rails.application.routes.draw do
   get 'autho/teacher', to: 'teachers#index'
   post 'autho/teacher/update', to: 'teachers#update'
 
+
   # アプリのユーザーとのやり取りや運営同士でのやり取りをするチャットのためのURL
   get 'autho/chat', to: 'commands#top'
+
     # 教師への指示を出すためのチャットのURL
   get 'autho/chat/command', to: 'commands#index'
   get 'autho/chat/command/room', to: 'commands#room'
+
   # 　運営同士でのやり取りをするためのチャットのURL
   get 'autho/chat/admin', to: 'admin_chats#index'
   get 'autho/chat/admin/new', to: 'admin_chats#new'
@@ -50,6 +53,8 @@ Rails.application.routes.draw do
   get 'autho/chat/admin/room', to: 'admin_chats#room'
   post 'autho/chat/admin/room', to: 'admin_chats#room'
   delete 'autho/chat/admin/room', to: 'admin_chats#room'
+
+  # チャット終了
 
   # 管理者の役割や権限を管理するためのページなどのURL
   get 'autho/levelsetting', to: 'level_settings#index'
