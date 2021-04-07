@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :set_color
     before_action :make_option
+    before_action :limit
     
     require 'rack'
     require 'ncmb'
@@ -29,9 +30,13 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    def limit c_name, a_name
+    def limit
+        c_name = controller_name
+        a_name = action_name
         cals = CaList.where(controller_name: c_name, action_name: a_name)
-        if !cal.blank?
+        if cals.blank?
+            return
+        else
             cal = cals.first
             minimum_level = cal.minimum_level
             if cal.is_only_admin
@@ -106,13 +111,8 @@ class ApplicationController < ActionController::Base
 
     def make_option
         if admin_signed_in?
-            if current_admin.admin
-                @options = [["アクセス権の管理","limitation"],["権限の管理","levelsetting"]]
-            elsif current_admin.subadmin
-                @options = [["権限の管理","levelsetting"]]
-            else
-                @options = []
-            end
+            @options = [["アクセス権の管理","limitation"]]
+            @options.push([["権限の管理","levelsetting"]])
             @options.push(["チャット","Chat"])
             @options.push(["ドメインの編集","Domain"])
             @options.push(["都道府県の編集","Region"])
@@ -140,6 +140,5 @@ class ApplicationController < ActionController::Base
             return false
         end
     end
-
     
 end

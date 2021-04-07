@@ -75,7 +75,6 @@ Rails.application.routes.draw do
   post 'autho/limitation/addgroup', to: 'ca_limits#create'
   delete 'autho/limitation/deletegroup', to: 'ca_limits#delete'
 
-
   # アプリとの通信用
   post 'app/user/domain', to: 'app_users#domain'
 
