@@ -77,5 +77,11 @@ Rails.application.routes.draw do
 
   # アプリとの通信用
   post 'app/user/domain', to: 'app_users#domain'
+  post 'app/user/report', to: 'app_users#report'
+
+  #メールの確認用
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 
 end

@@ -48,4 +48,11 @@ class AppUsersController < ApplicationController
         end
     end
 
+    def report
+        if request.post?
+            NotificationMailer.send_report(params["address"]).deliver
+            render :plain => ""
+        end
+    end
+
 end
