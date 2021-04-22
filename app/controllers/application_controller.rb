@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
     require 'rack'
     require 'ncmb'
     NCMB.initialize(
-        application_key: "ff2eb018c242f1f1583c5de5b0839224c4b070f08cb4c6ad5f43bb90a86d690e",
-        client_key: "1c892f55e7e3b5533a8e6a1b5601a747e01707a81fcb162f9d68133d55f347e7"
+        application_key: ENV['NCMB_APP_KEY'],
+        client_key: ENV['NCMB_CLIENT_KEY']
     )
 
     def strongest_limit
@@ -112,7 +112,7 @@ class ApplicationController < ActionController::Base
     def make_option
         if admin_signed_in?
             @options = [["アクセス権の管理","limitation"]]
-            @options.push([["権限の管理","levelsetting"]])
+            @options.push(["権限の管理","levelsetting"])
             @options.push(["チャット","Chat"])
             @options.push(["ドメインの編集","Domain"])
             @options.push(["都道府県の編集","Region"])
@@ -134,7 +134,7 @@ class ApplicationController < ActionController::Base
     end
 
     def check_token(token)
-        if token == "fN4BnkumjMvnbZd47gFLYL7JpVn283eaZwxEpT8NYyhYMPUaRDzR3dQZxTUT2eQYz7gqG9UMjAm8VaM26fhH7ueN7fJbXPsfCpM8"
+        if token == Env["APP_KEY"]
             return true
         else
             return false
