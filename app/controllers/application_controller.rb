@@ -127,10 +127,11 @@ class ApplicationController < ActionController::Base
         @accent_color  = "backGround: #ffff32; color: #000032;"
     end
 
+    # devise用のカラムを追加するために必要
     before_action :configure_permitted_parameters, if: :devise_controller?
-
     def configure_permitted_parameters
-        devise_parameter_sanitizer.permit(:sign_up,keys: [:name])
+        devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+        devise_parameter_sanitizer.permit(:account_update, keys: [:name])
     end
 
     def check_token(token)

@@ -1,1 +1,46 @@
-aaaaaaaaaaaa
+<%= @student.userName %>の保護者様
+
+平素よりTeLectuerをご利用いただきありがとうございます。
+
+本日<%= @student.userName %>さんに、<%= @report.subject %>・<%= @report.unit %>の授業を担当させていただきました教師の<%= @teacher.userName %>です。
+
+お手数ではございますが、授業報告の確認の程よろしくお願いします。
+
+----------------------授業報告----------------------
+
+<% if !@report.attitude.blank? %>
+授業態度：<%= @report.attitude %>
+<% end %>
+
+<% if !@report.homework.blank? %>
+宿題：
+<%= @report.homework %>
+<% end %>
+
+<% if !@report.nextUnit.blank? %>
+次回の計画：　
+<%= @report.nextUnit %>
+<% end %>
+
+<% if !@report.messageToParents.blank? %>
+その他報告したいこと
+<%= @report.messageToParents %>
+<% end %>
+
+<% if !@report.fileNames.blank? %>
+授業の資料：
+<%= @report.fileNames.each do |f| %>
+    <%= "https://mbaas.api.nifcloud.com/2013-09-01/applications/LEaF9q0Coe9T8EYl/publicFiles/" + f + "\n"%>
+<% end %>
+<% end %>
+
+--------------------------------------------------
+
+授業報告は以上となります。
+
+お忙しいところ恐縮ですが、ご確認の程よろしくお願い申し上げます。
+
+※本アドレスは送信専用です。直接返信はできません。
+ご質問・ご連絡は、TeLectureアプリの「TeLecture運営係」宛のチャットに送信の程お願いいたします。
+
+TeLecture/iProject Inc

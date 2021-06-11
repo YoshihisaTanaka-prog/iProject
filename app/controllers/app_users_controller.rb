@@ -49,9 +49,24 @@ class AppUsersController < ApplicationController
     end
 
     def report
-        if request.post?
-            NotificationMailer.send_report(params["address"]).deliver
-            render :plain => ""
+        if request.post? and check_token(params["token"])
+            ncmb_report_object = NCMB::DataStore.new "Report"
+            report_object = ncmb_object.where("objectId", params["id"]).first
+
+            ncmb_report_object = NCMB::DataStore.new "StudentParameter"
+            student_object = ncmb_object.where("objectId", report_object.studentId).first
+
+            teacher_report_object = NCMB::DataStore.new "TeacherParameter"
+            teacher_object = ncmb_object.where("objectId", report_object.teacherId).first
+
+            if student_object.parentEmailAdress.blank?
+                render :plain => "Address Error"
+            else
+                NotificationMailer.send_report(report_object, student_object, teacher_object).deliver
+                render :plain => "Sent email "
+            end
+        else
+            render :plain => "Token Error"
         end
     end
 
