@@ -54,10 +54,10 @@ class AppUsersController < ApplicationController
             report_object = ncmb_report_object.where("objectId", params["id"]).first
 
             ncmb_student_object = NCMB::DataStore.new "StudentParameter"
-            student_object = ncmb_student_object.where("objectId", report_object.studentId).first
+            student_object = ncmb_student_object.where("userId", report_object.studentId).first
 
             ncmb_teacher_object = NCMB::DataStore.new "TeacherParameter"
-            teacher_object = ncmb_teacher_object.where("objectId", report_object.teacherId).first
+            teacher_object = ncmb_teacher_object.where("userId", report_object.teacherId).first
 
             if student_object.parentEmailAdress.blank?
                 render :plain => "Address Error"
