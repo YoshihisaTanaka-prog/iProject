@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
     end
 
     def check_token(token)
-        if token == Env["APP_KEY"]
+        if token == ENV["APP_KEY"]
             return true
         else
             return false
