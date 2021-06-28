@@ -14,7 +14,7 @@ class CommandsController < ApplicationController
 
     def room
         object = NCMB::DataStore.new "TeacherParameter"
-        @teacher = object.where("userId", params['id']).first
+        @teacher = object.where("objectId", params['id']).first
     end
 
 end

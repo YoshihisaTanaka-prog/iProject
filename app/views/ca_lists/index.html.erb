@@ -4,12 +4,15 @@
     <option value="/autho/limitation?cont=<%= c %>"<%= " selected" if params["cont"] == c %>> <%= c %> </option>
 <% end %>
 </select>
-
-<%= link_to "+", autho_limitation_new_path %>
+<% if params["cont"].blank? %>
+    <%= link_to "+", autho_limitation_new_path %>
+<% else %>
+    <%= link_to "+", autho_limitation_new_path(:controller_name => params["cont"] ) %>
+<% end %>
 
 <table>
     <tr>
-        <th>コントローラー</th><th>アクション</th><th>詳細</th><th>編集</th>
+        <th>コントローラー</th><th>アクション</th><th>詳細</th><th>編集</th><th>ページに移動</th>
     </tr>
     <% @ca_lists.each do |c| %>
         <tr>
@@ -17,6 +20,7 @@
             <td><%= c.action_name %></td>
             <td><%= link_to "詳細ページへ", autho_limitation_show_path(:id => c.id) %></td>
             <td><%= link_to "編集ページへ", autho_limitation_edit_path(:id => c.id) %></td>
+            <td><%= link_to c.path_name, c.path_name %></td>
         </tr>
     <% end %>
 </table>

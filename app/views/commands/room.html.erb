@@ -1,1 +1,1 @@
-<h1><%= @teacher.userName unless @teacher[:userName].blank? %>先生へのチャット</h1>
+<h1><%= @teacher.userName unless @teacher.userName.blank? %>先生(<%= @teacher.collage unless @teacher.collage.blank? %>)へのチャット</h1>

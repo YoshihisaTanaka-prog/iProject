@@ -1,5 +1,6 @@
 <%= form_tag(ca_list_path, method: :patch) do %>
     <%= hidden_field_tag :id, @ca_list.id %>
+    <%= label_tag :コントローラー名 %>
     <%= text_field_tag :controller_name, @ca_list.controller_name %> <br>
     <%= text_field_tag :action_name, @ca_list.action_name %> <br>
     <%= text_field_tag :path_name, @ca_list.path_name %> <br>

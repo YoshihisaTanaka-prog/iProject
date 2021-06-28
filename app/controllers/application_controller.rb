@@ -11,69 +11,79 @@ class ApplicationController < ActionController::Base
     )
 
     def strongest_limit
-        if current_admin.admin
-            return
-        elsif current_admin.admin_level == 0
-            redirect_to caution_path(:level => "最高権限")
-        else
-            redirect_to edit_caution_path(:level => "最高権限")
+        if admin_signed_in?
+            if current_admin.admin
+                return
+            elsif current_admin.admin_level == 0
+                redirect_to caution_path(:level => "最高権限")
+            else
+                redirect_to edit_caution_path(:level => "最高権限")
+            end
         end
     end
 
     def strong_limit
-        if current_admin.subadmin
-            return
-        elsif current_admin.admin_level == 0
-            redirect_to caution_path(:level => "幹部権限")
-        else
-            redirect_to autho_caution_path(:level => "幹部権限")
+        if admin_signed_in?
+            if current_admin.subadmin
+                return
+            elsif current_admin.admin_level == 0
+                redirect_to caution_path(:level => "幹部権限")
+            else
+                redirect_to autho_caution_path(:level => "幹部権限")
+            end
         end
     end
 
     def limit
-        c_name = controller_name
-        a_name = action_name
-        cals = CaList.where(controller_name: c_name, action_name: a_name)
-        if cals.blank?
-            return
-        else
-            cal = cals.first
-            minimum_level = cal.minimum_level
-            if cal.is_only_admin
-                if current_admin.admin
-                    return
-                else
-                    if current_admin.admin_level == 0
-                        redirect_to caution_path(:level => "最高権限のみ")
-                    else
-                        redirect_to autho_caution_path(:level => "最高権限のみ")
-                    end
-                end
-            elsif cal.is_only_subadmin
-                if current_admin.subadmin
-                    return
-                else
-                    if current_admin.admin_level == 0
-                        redirect_to caution_path(:level => "準最高権限のみ")
-                    else
-                        redirect_to autho_caution_path(:level => "準最高権限のみ")
-                    end
-                end
-            elsif cal.is_only_level
-                normal_limit(minimum_level)
+        if admin_signed_in?
+            c_name = controller_name
+            a_name = action_name
+            cals = CaList.where(controller_name: c_name, action_name: a_name)
+            if cals.blank?
+                return
             else
-                # グループ分け
-                cal_limits = cal.ca_limits.order(:admin_group_id).pluck(:admin_group_id)
-                ags = GroupAdmin.where(admin_id: current_admin.id).order(:group_id).pluck(:group_id)
-                ags.each do |a|
-                    if cal_limits.include?(a)
-                        normal_limit(minimum_level)
+                cal = cals.first
+                minimum_level = cal.minimum_level
+                if cal.is_only_admin
+                    if current_admin.admin
+                        return
+                    else
+                        if current_admin.admin_level == 0
+                            redirect_to caution_path(:level => "最高権限のみ")
+                        else
+                            redirect_to autho_caution_path(:level => "最高権限のみ")
+                        end
                     end
-                end
-                if current_admin.admin_level == 0
-                    redirect_to caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                elsif cal.is_only_subadmin
+                    if current_admin.subadmin
+                        return
+                    else
+                        if current_admin.admin_level == 0
+                            redirect_to caution_path(:level => "準最高権限のみ")
+                        else
+                            redirect_to autho_caution_path(:level => "準最高権限のみ")
+                        end
+                    end
+                elsif cal.is_only_level
+                    normal_limit(minimum_level)
                 else
-                    redirect_to autho_caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                    if current_admin.subadmin
+                        return
+                    else
+                        # グループ分け
+                        cal_limits = cal.ca_limits.order(:admin_group_id).pluck(:admin_group_id)
+                        ags = GroupAdmin.where(admin_id: current_admin.id).order(:group_id).pluck(:group_id)
+                        ags.each do |a|
+                            if cal_limits.include?(a)
+                                normal_limit(minimum_level)
+                            end
+                        end
+                        if current_admin.admin_level == 0
+                            redirect_to caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                        else
+                            redirect_to autho_caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
+                        end
+                    end
                 end
             end
         end
@@ -88,16 +98,18 @@ class ApplicationController < ActionController::Base
     end
 
     def normal_limit min
-        if current_admin.subadmin
-            return
-        elsif current_admin.admin_level < min
-            if current_admin.admin_level == 0
-                redirect_to caution_path(:level => "レベル" + min.to_s + "以上の権限")
+        if admin_signed_in?
+            if current_admin.subadmin
+                return
+            elsif current_admin.admin_level < min
+                if current_admin.admin_level == 0
+                    redirect_to caution_path(:level => "レベル" + min.to_s + "以上の権限")
+                else
+                    redirect_to autho_caution_path(:level => "レベル" + min.to_s + "以上の権限")
+                end
             else
-                redirect_to autho_caution_path(:level => "レベル" + min.to_s + "以上の権限")
+                return
             end
-        else
-            return
         end
     end
 
@@ -111,13 +123,13 @@ class ApplicationController < ActionController::Base
 
     def make_option
         if admin_signed_in?
-            @options = [["アクセス権の管理","limitation"]]
-            @options.push(["権限の管理","levelsetting"])
-            @options.push(["チャット","Chat"])
-            @options.push(["ドメインの編集","Domain"])
-            @options.push(["都道府県の編集","Region"])
-            @options.push(["生徒の管理","StudentParameter"])
-            @options.push(["教師の管理","TeacherParameter"])
+            @options = [["アクセス権の管理","/autho/limitation","ca_lists"]]
+            @options.push(["権限の管理","/autho/levelsetting","level_settings"])
+            @options.push(["チャット","/autho/chat","commands"])
+            @options.push(["ドメインの編集","/autho/domain","domains"])
+            @options.push(["都道府県の編集","/autho/prefecture","regions"])
+            @options.push(["生徒の管理","StudentParameter",""])
+            @options.push(["教師の管理","/autho/teacher","teachers"])
         end
     end
 

@@ -41,14 +41,9 @@
     </header><br>
 
     <main>
-      <center>
-        <h3>メニューを選択</h3>
-        <%= form_tag autho_path, method: :get do %>
-          <%= select_tag 'class', options_for_select(@options, 1), include_blank: false %>
-          <%= submit_tag("選択") %>
-        <% end %>
-      </center>
-      <hr>
+      <% if action_name == "index" %>
+        <%= render "layouts/menu" %>
+      <% end %>
       <%= yield %>
     </main>
 

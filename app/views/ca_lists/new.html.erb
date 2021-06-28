@@ -1,8 +1,31 @@
+<table>
 <%= form_with model: @ca_list do |f| %>
-    <%= f.text_field :controller_name %> <br>
-    <%= f.text_field :action_name %> <br>
-    <%= f.text_field :path_name %> <br>
-    <%= f.select :option,[["デフォルト", ""],["権限レベルのみで制限","level"],["準最高権限以上","subadmin"],["最高権限のみ","admin"]] %><br>
-    <%= f.number_field :level, value: 1%><br>
-    <%= f.submit "追加" %>
+    <tr>
+        <td><%= label_tag :コントローラー名 %></td>
+        <td><%= f.text_field :controller_name, value: params["controller_name"] %></td>
+    </tr>
+    <tr>
+        <td><%= label_tag :アクション名 %></td>
+        <td><%= f.text_field :action_name %></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><%= label_tag :パス %></td>
+        <td><%= f.text_field :path_name, value: "/" %></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><%= label_tag :権限の種類を選択 %></td>
+        <td><%= f.select :option,[["デフォルト", ""],["権限レベルのみで制限","level"],["準最高権限以上","subadmin"],["最高権限のみ","admin"]] %></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><%= label_tag :権限レベル %></td>
+        <td><%= f.number_field :level, value: 1%></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="3"><%= f.submit "追加" %></td>
+    </tr>
 <% end %>
+</table>
