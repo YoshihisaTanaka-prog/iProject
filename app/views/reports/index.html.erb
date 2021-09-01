@@ -7,3 +7,12 @@
         </tr>
     <% end %>
 </table>
+
+<table>
+    <% @users.each do |u| %>
+        <tr>
+            <td><%= u.userId %></td>
+            <td><%= u.role %></td>
+        </tr>
+    <% end %>
+</table>
