@@ -89,7 +89,7 @@ class AppUsersController < ApplicationController
     def user
         if request.post? and check_token(params["token"])
             object = User.new()
-            object.userId = params["userId"]
+            object.user_id = params["userId"]
             object.role = params["role"]
             if object.save
                 render :plain => "Successed"
