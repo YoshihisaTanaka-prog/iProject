@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_151040) do
+ActiveRecord::Schema.define(version: 2021_09_01_120701) do
 
   create_table "admin_chats", force: :cascade do |t|
     t.integer "autho_id"
@@ -96,11 +96,26 @@ ActiveRecord::Schema.define(version: 2021_04_05_151040) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "reports", force: :cascade do |t|
+    t.string "class_name"
+    t.string "object_id"
+    t.string "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "support_chats", force: :cascade do |t|
     t.string "user_id"
     t.text "message"
     t.boolean "is_from_user"
     t.boolean "is_read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "userId"
+    t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

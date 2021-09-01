@@ -1,8 +1,7 @@
 class AdminChatsController < ApplicationController
     before_action :authenticate_admin!
     before_action -> { normal_limit(1)}
-    layout 'chat', except: [:index, :new]
-    layout 'autho', only: [:index]
+    layout 'chat', only: [:room]
 
     def index
         group_ids = GroupAdmin.where(admin_id: current_admin.id)
@@ -63,6 +62,8 @@ class AdminChatsController < ApplicationController
                 end
             end
             @chats = AdminChat.where(group_id: params['id']).order(:id)
+            @room_name = @room.name
+            @path = autho_chat_admin_path
         end
     end
 

@@ -1,1 +1,32 @@
-<h1><%= @teacher.userName unless @teacher.userName.blank? %>先生(<%= @teacher.collage unless @teacher.collage.blank? %>)へのチャット</h1>
+<div class="chat-main">
+    <% @chats.each do |c| %>
+        <div class="chat">
+            <% if c.sentUserId == "sapo-to" %>
+                <div class="my-chat">
+                    <div class="message"">
+                        <%= c.message %>
+                    </div>
+                    <p>
+                        <%=  c.createDate %>
+                    </p>
+                </div>
+            <% else %>
+                <div class="your-chat">
+                    <div class="message">
+                        <%= c.message %>
+                    </div>
+                    <p>
+                        <%= @teacher.userName %><br>
+                        <%=  c.createDate %>
+                    </p>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+    <%= form_tag autho_chat_command_send_path, class:"chat-form" do %>
+        <%= text_field_tag "message","", style:"width: 19vw;" %>
+        <%= hidden_field_tag "chatRoomId", "user-" + @teacher.userId %>
+        <%= hidden_field_tag "id", @teacher.objectId %>
+        <%= submit_tag "送信", style:"width: 5vw;" %>
+    <% end %>
+</div>

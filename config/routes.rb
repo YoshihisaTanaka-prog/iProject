@@ -37,9 +37,15 @@ Rails.application.routes.draw do
   # アプリのユーザーとのやり取りや運営同士でのやり取りをするチャットのためのURL
   get 'autho/chat', to: 'commands#top'
 
+  # 生徒へのサポートをするためのチャットのURL
+  get 'autho/chat/support', to: 'support_chat#index'
+  get 'autho/chat/support/room', to: 'support_chat#room'
+  post 'autho/chat/support/send', to: 'support_chat#send_message'
+
     # 教師への指示を出すためのチャットのURL
   get 'autho/chat/command', to: 'commands#index'
   get 'autho/chat/command/room', to: 'commands#room'
+  post 'autho/chat/command/send', to: 'commands#send_message'
 
   # 　運営同士でのやり取りをするためのチャットのURL
   get 'autho/chat/admin', to: 'admin_chats#index'
@@ -76,8 +82,10 @@ Rails.application.routes.draw do
   delete 'autho/limitation/deletegroup', to: 'ca_limits#delete'
 
   # アプリとの通信用
-  post 'app/user/domain', to: 'app_users#domain'
-  post 'app/user/report', to: 'app_users#report'
+  post 'app/user', to: 'app_users#user'
+  post 'app/domain', to: 'app_users#domain'
+  post 'app/report/mail', to: 'app_users#report_mail'
+  post 'app/report/object', to: 'app_users#report_object'
 
   #メールの確認用
   if Rails.env.development?

@@ -48,7 +48,7 @@ class AppUsersController < ApplicationController
         end
     end
 
-    def report
+    def report_mail
         if request.post? and check_token(params["token"])
             ncmb_report_object = NCMB::DataStore.new "Report"
             report_object = ncmb_report_object.where("objectId", params["id"]).first
@@ -63,7 +63,38 @@ class AppUsersController < ApplicationController
                 render :plain => "Address Error"
             else
                 NotificationMailer.send_report(report_object, student_object, teacher_object).deliver
-                render :plain => "Sent email "
+                render :plain => "Sent email"
+            end
+        else
+            render :plain => "Token Error"
+        end
+    end
+
+    def report_object
+        if request.post? and check_token(params["token"])
+            object = Report.new()
+            object.class_name = params["className"]
+            object.object_id = params["objectId"]
+            object.user_id = params["userId"]
+            if object.save
+                render :plain => "Successed"
+            else
+                render :plain => "Failed"
+            end
+        else
+            render :plain => "Token Error"
+        end
+    end
+
+    def user
+        if request.post? and check_token(params["token"])
+            object = User.new()
+            object.user_id = params["userId"]
+            object.role = params["role"]
+            if object.save
+                render :plain => "Successed"
+            else
+                render :plain => "Failed"
             end
         else
             render :plain => "Token Error"

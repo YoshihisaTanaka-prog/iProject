@@ -1,0 +1,9 @@
+<table>
+    <% @reports.each do |r| %>
+        <tr>
+            <td><%= r.class_name %></td>
+            <td><%= r.object_id %></td>
+            <td><%= r.user_id %></td>
+        </tr>
+    <% end %>
+</table>
