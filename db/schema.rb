@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_032704) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "parameter_id", default: "", null: false
     t.string "domain", default: "", null: false
-    t.datetime "last_sent_time", default: "2021-09-10 03:31:00", null: false
+    t.datetime "last_sent_time", default: "2021-09-10 13:03:47", null: false
     t.integer "unread_count", default: 0, null: false
   end
 

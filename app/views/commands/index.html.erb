@@ -8,8 +8,8 @@
 <% @users.each_with_index do |u, i| %>
     <% n = @ncmb_users[i] %>
     <tr>
-        <td><%= n.userName unless n[:userName].blank? %></td>
-        <td><%= n.collage unless n[:collage].blank? %><%=  "(" + u.unread_count + ")" unless u.unread_count == 0 %></td>
+        <td><%= n.userName unless n.userName.blank? %></td>
+        <td><%= n.collage unless n.collage.blank? %><%=  "(" + u.unread_count + ")" unless u.unread_count == 0 %></td>
         <td><%= link_to "チャットへ", autho_chat_command_room_path(:id => n.objectId) %></td>
     </tr>
 <% end %>

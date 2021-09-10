@@ -14,7 +14,7 @@ class CommandsController < ApplicationController
         objects = []
         @users.each do |u|
             objects.push(NCMB::DataStore.new "TeacherParameter")
-            @ncmb_users.push(objects.last.where(objectId: u.user_id).first)
+            @ncmb_users.push(objects.last.where("userId", u.user_id).first)
         end
     end
 

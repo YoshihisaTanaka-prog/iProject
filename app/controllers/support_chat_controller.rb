@@ -10,7 +10,7 @@ class SupportChatController < ApplicationController
         objects = []
         @users.each do |u|
             objects.push(NCMB::DataStore.new "StudentParameter")
-            @ncmb_users.push(objects.last.where(objectId: u.user_id).first)
+            @ncmb_users.push(objects.last.where("userId", u.user_id).first)
         end
     end
 
