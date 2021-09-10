@@ -5,8 +5,13 @@ class SupportChatController < ApplicationController
     layout 'chat', only: [:room]
 
     def index
-        object = NCMB::DataStore.new "StudentParameter"
-        @objects = object.all
+        @users = User.where(role: 'student').order(last_sent_time: "DESC")
+        @ncmb_users = []
+        objects = []
+        @users.each do |u|
+            objects.push(NCMB::DataStore.new "StudentParameter")
+            @ncmb_users.push(objects.last.where(objectId: u.user_id).first)
+        end
     end
 
     def room

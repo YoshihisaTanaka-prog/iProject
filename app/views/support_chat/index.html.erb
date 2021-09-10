@@ -5,11 +5,12 @@
     <tr>
         <th>生徒名</th><th>学校名</th><th></th>
     </tr>
-<% @objects.each do |o| %>
+<% @users.each_with_index do |u, i| %>
+    <% n = @ncmb_users[i] %>
     <tr>
-        <td><%= o.userName unless o[:userName].blank? %></td>
-        <td><%= o.schoolName unless o[:collage].blank? %></td>
-        <td><%= link_to "チャットへ", autho_chat_support_room_path(:id => o.objectId) %></td>
+        <td><%= n.userName unless n[:userName].blank? %></td>
+        <td><%= n.schoolName unless n[:schoolName].blank? %><%=  "(" + u.unread_count + ")" unless u.unread_count == 0 %></td>
+        <td><%= link_to "チャットへ", autho_chat_support_room_path(:id => n.objectId) %></td>
     </tr>
 <% end %>
 </table>
