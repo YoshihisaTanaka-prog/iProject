@@ -79,6 +79,8 @@ class CaListsController < ApplicationController
             @ca_list.is_only_admin = true
         end
 
+        @ca_list.path_name = params[:path_name]
+
         if @ca_list.save
             #updateが完了したら一覧ページへリダイレクト
             redirect_to autho_limitation_path

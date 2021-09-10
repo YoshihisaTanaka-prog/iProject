@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   # 制限された時に表示するページのURL
   get 'caution', to: 'tops#caution'
   post 'caution', to: 'tops#caution'
-  get 'autho/caution', to: 'edits#caution'
 
   # 管理者用のトップページとアクセス権の注意のURL
   get 'autho', to: 'edits#index'
