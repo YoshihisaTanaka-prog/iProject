@@ -47,7 +47,7 @@ class CaListsController < ApplicationController
         #saveメソッドでデータをセーブ　*newメソッド + saveメソッド = createメソッド
         if @ca_list.save
             #saveが完了したら、一覧ページへリダイレクト
-            redirect_to autho_limitation_path
+            redirect_to autho_limitation_path(:controller_name => @ca_list.controller_name)
         else
             #saveを失敗すると新規作成ページへ
             render 'new'
@@ -83,7 +83,7 @@ class CaListsController < ApplicationController
 
         if @ca_list.save
             #updateが完了したら一覧ページへリダイレクト
-            redirect_to autho_limitation_path
+            redirect_to autho_limitation_path(:controller_name => params[:controller_name])
         else
             #updateを失敗すると編集ページへ
             render 'edit'
