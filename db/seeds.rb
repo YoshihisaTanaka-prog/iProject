@@ -18,11 +18,10 @@
 #     end
 # end
 
-# User.create(user_id: "WkZOFnaNDtb9H6Aa", role: "teacher", domain: "s.kyushu-u.ac.jp", parameter_id: "U9xvD37sOc4fQmwX")
-# User.create(user_id: "Wc5lpw2YMRIxuDpM", role: "teacher", domain: "s.kyushu-u.ac.jp", parameter_id: "uOajLLUuhDXHj7cQ")
-# User.create(user_id: "0qqx5ugm42UFFrOV", role: "teacher", domain: "gmail.com", parameter_id: "kbL1ZQQVhmdFtrWk")
-# User.create(user_id: "eugakA6u1ZXUfuzR", role: "teacher", domain: "gmail.com", parameter_id: "yI8LbW6NKVKWP5kF")
-# User.create(user_id: "eKwToooiFnyI8BHC", role: "student", parameter_id: "MjlPd28fNycJAsxZ")
-# User.create(user_id: "UfDI1Re0cx4P1Ikm", role: "student", parameter_id: "2rKrwAPBBnicKtBS")
-# User.create(user_id: "Fqcwf7C9nqwPYvNN", role: "student", parameter_id: "D9vY7nxhsSbSxhmW")
-# User.create(user_id: "vTqCnnOkZbXRhq3G", role: "student", parameter_id: "jWp3kLA4K20V034M")
+User.create(user_id: "WkZOFnaNDtb9H6Aa", role: "teacher", domain: "s.kyushu-u.ac.jp", parameter_id: "U9xvD37sOc4fQmwX")
+User.create(user_id: "Wc5lpw2YMRIxuDpM", role: "teacher", domain: "s.kyushu-u.ac.jp", parameter_id: "uOajLLUuhDXHj7cQ")
+User.create(user_id: "0qqx5ugm42UFFrOV", role: "teacher", domain: "gmail.com", parameter_id: "kbL1ZQQVhmdFtrWk")
+User.create(user_id: "eugakA6u1ZXUfuzR", role: "teacher", domain: "gmail.com", parameter_id: "yI8LbW6NKVKWP5kF")
+User.create(user_id: "eKwToooiFnyI8BHC", role: "student", parameter_id: "MjlPd28fNycJAsxZ")
+User.create(user_id: "UfDI1Re0cx4P1Ikm", role: "student", parameter_id: "2rKrwAPBBnicKtBS")
+User.create(user_id: "Fqcwf7C9nqwPYvNN", role: "student", parameter_id: "D9vY7nxhsSbSxhmW")
