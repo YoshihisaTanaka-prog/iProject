@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_01_120701) do
+ActiveRecord::Schema.define(version: 2021_09_10_032704) do
 
   create_table "admin_chats", force: :cascade do |t|
     t.integer "autho_id"
@@ -118,6 +118,10 @@ ActiveRecord::Schema.define(version: 2021_09_01_120701) do
     t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "parameter_id", default: "", null: false
+    t.string "domain", default: "", null: false
+    t.datetime "last_sent_time", default: "2021-09-10 03:31:00", null: false
+    t.integer "unread_count", default: 0, null: false
   end
 
 end

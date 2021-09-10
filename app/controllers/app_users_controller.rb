@@ -88,13 +88,31 @@ class AppUsersController < ApplicationController
 
     def user
         if request.post? and check_token(params["token"])
-            object = User.new()
-            object.user_id = params["userId"]
-            object.role = params["role"]
-            if object.save
-                render :plain => "Successed"
+            object = User.find_by(user_id: params["userId"])
+            if object.blank?
+                object = User.new()
+                object.user_id = params["userId"]
+                object.role = params["role"]
+                if !params["domain"].blank?
+                    object.domain = params["domain"]
+                end
+                if !params["paramId"].blank?
+                    object.parameter_id = params["paramId"]
+                end
+                object.last_sent_time = DateTime.now
+                if object.save
+                    render :plain => "Successed"
+                else
+                    render :plain => "Failed"
+                end
             else
-                render :plain => "Failed"
+                object.last_sent_time = DateTime.now
+                object.unread_count += 1
+                if object.save
+                    render :plain => "Successed"
+                else
+                    render :plain => "Failed"
+                end
             end
         else
             render :plain => "Token Error"
