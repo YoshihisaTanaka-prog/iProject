@@ -32,11 +32,11 @@ class CaListsController < ApplicationController
         if @ca_list.path_name[0,1] != '/'
             @ca_list.path_name = '/' + @ca_list.path_name
         end
-        level = params[:level].to_i
+        level = params[:ca_list][:level].to_i
         if level > 1
             @ca_list.minimum_level = level
         end
-        case params[:option]
+        case params[:ca_list][:option]
         when "level"
             @ca_list.is_only_level = true
         when "subadmin"
