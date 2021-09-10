@@ -3,13 +3,14 @@
 <%= link_to "チャットの種類選択に戻る", autho_chat_path %><br><br>
 <table>
     <tr>
-        <th>生徒名</th><th>学校名</th><th></th>
+        <th>生徒名</th><th>学校名</th><th></th><th></th>
     </tr>
     <% @users.each_with_index do |u, i| %>
         <% n = @ncmb_users[i] %>
         <tr>
             <td><%= n.userName unless n.userName.blank? %></td>
-            <td><%= n.schoolName unless n.schoolName.blank? %><%=  "(" + u.unread_count.to_s + ")" unless u.unread_count == 0 %></td>
+            <td><%= n.schoolName unless n.schoolName.blank? %></td>
+            <td><%=  "(" + u.unread_count.to_s + ")" unless u.unread_count == 0 %></td>
             <td><%= link_to "チャットへ", autho_chat_support_room_path(:id => n.objectId) %></td>
         </tr>
     <% end %>
