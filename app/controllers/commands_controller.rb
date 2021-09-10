@@ -27,6 +27,11 @@ class CommandsController < ApplicationController
         @room_name = @teacher.userName + "先生 (" + @teacher.collage + ") へのチャット"
         @path = autho_chat_command_path
 
+        case params['autoType'].to_i
+        when 1
+            @msg = "現在使用中のメールアドレスは大学用のメールアドレスではないと判断しました。\n大学用のメールアドレスを用いてサインアップしてください。\n\n大学のメールアドレスを使用中の場合はことチャットで教えてください。"
+        end
+
         @chats.each do |c|
             if c.sentUserId != "sapo-to" && !c.readUserIds.include?("sapo-to")
                 c.readUserIds.push("sapo-to")

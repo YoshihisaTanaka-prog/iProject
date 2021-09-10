@@ -4,7 +4,7 @@
             <th>ドメイン</th><th>大学名（正式名称）</th>
         </tr>
         <tr>
-            <td><%= text_field_tag "dom" %></td>
+            <td><%= text_field_tag "dom", params['dom'] %></td>
             <td><%= text_field_tag "collage", params['cn'] %></td>
             <td><%= hidden_field_tag "status", params["status"] %><%= submit_tag("追加") %></td>
         </tr>

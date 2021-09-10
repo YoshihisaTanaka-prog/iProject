@@ -5,28 +5,27 @@ class AppUsersController < ApplicationController
     def new_domain(p, d)
         msg1 = p + "さんが未確認のドメインを使用しました。"
         msg2 = d + "というドメインです。"
-        url1 = "/autho/chat/command/room?id=" + p + "&msg=あなたの利用しているメールアドレスは大学用のメールアドレスではないと思われます。\n大学用のメールアドレスでサインアップしてください。\n\nまた大学用のメールアドレスの場合は教えてください。"
-        url2 = "/autho/domain?cn=" + d
+        url1 = "/autho/chat/command/room?id=" + p + "&autoType=1"
+        url2 = "/autho/domain?dom=" + d
         # 一つ目のメッセージを作成
         object1 = AdminChat.new()
         object1.autho_id = 0
         object1.group_id = 3
         object1.message = msg1
         object1.url = url1
+        object1.save
         # 二つ目のメッセージを作成
         object2 = AdminChat.new()
         object2.autho_id = 0
         object2.group_id = 3
         object2.message = msg2
         object2.url = url2
-        # 保存
-        object1.save
         object2.save
     end
     
     def wrong_domain(p)
         msg = p + "さんが大学以外のドメインを使用しました。"
-        url = "/autho/chat/command/room?id=" + p + "&msg=あなたの利用しているメールアドレスは大学用のメールアドレスではないと思われます。\n大学用のメールアドレスでサインアップしてください。\n\nまた大学用のメールアドレスの場合は教えてください。"
+        url = "/autho/chat/command/room?id=" + p + "&autoType=1"
         # メッセージを作成
         object = AdminChat.new()
         object.autho_id = 0
