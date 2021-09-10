@@ -34,6 +34,11 @@ class CommandsController < ApplicationController
                 c.save
             end
         end
+        t = User.find_by(role: 'teacher', parameter_id: params['id'])
+        if !t.blank?
+            t.unread_count = 0
+            t.save
+        end
     end
 
     def send_message

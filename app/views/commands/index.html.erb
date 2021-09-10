@@ -5,12 +5,12 @@
     <tr>
         <th>教師名</th><th>大学名</th><th></th>
     </tr>
-<% @users.each_with_index do |u, i| %>
-    <% n = @ncmb_users[i] %>
-    <tr>
-        <td><%= n.userName unless n.userName.blank? %></td>
-        <td><%= n.collage unless n.collage.blank? %><%=  "(" + u.unread_count.to_s + ")" unless u.unread_count == 0 %></td>
-        <td><%= link_to "チャットへ", autho_chat_command_room_path(:id => n.objectId) %></td>
-    </tr>
-<% end %>
+    <% @users.each_with_index do |u, i| %>
+        <% n = @ncmb_users[i] %>
+        <tr>
+            <td><%= n.userName unless n.userName.blank? %></td>
+            <td><%= n.collage unless n.collage.blank? %><%=  "(" + u.unread_count.to_s + ")" unless u.unread_count == 0 %></td>
+            <td><%= link_to "チャットへ", autho_chat_command_room_path(:id => n.objectId) %></td>
+        </tr>
+    <% end %>
 </table>

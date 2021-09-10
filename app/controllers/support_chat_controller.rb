@@ -30,6 +30,11 @@ class SupportChatController < ApplicationController
                 c.save
             end
         end
+        s = User.find_by(role: 'student', parameter_id: params['id'])
+        if !s.blank?
+            s.unread_count = 0
+            s.save
+        end
     end
 
     def send_message
