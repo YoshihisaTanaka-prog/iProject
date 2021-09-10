@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_120701) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "userId"
+    t.string "user_id"
     t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

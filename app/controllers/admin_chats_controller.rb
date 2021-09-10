@@ -52,7 +52,7 @@ class AdminChatsController < ApplicationController
             object.destroy
             redirect_to autho_chat_admin_path
         else
-            if params['id'] == 2
+            if params['id'].to_i == 2
                 strong_limit
             end
             @room = AdminGroup.find(params['id'].to_i)

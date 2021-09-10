@@ -31,6 +31,8 @@ class ApplicationController < ActionController::Base
             else
                 redirect_to autho_caution_path(:level => "幹部権限")
             end
+        else
+            redirect_to caution_path(:level => "幹部権限")
         end
     end
 
@@ -84,6 +86,25 @@ class ApplicationController < ActionController::Base
                             redirect_to autho_caution_path(:level => "グループ: " + group_list(cal_limits) + "のみの権限")
                         end
                     end
+                end
+            end
+        end
+    end
+
+    def group_limit id
+        if current_admin.subadmin
+            return
+        end
+        room = AdminGroup.find_by(special_id: id)
+        if room.blank?
+            return
+        else
+            ga = GroupAdmin.find_by(group_id: room.id, admin_id: current_admin.id)
+            if ga.blank?
+                if current_admin.admin_level == 0
+                    redirect_to caution_path(:level => "「" + room.name + "」の権限")
+                else
+                    redirect_to autho_caution_path(:level => "「" + room.name + "」の権限")
                 end
             end
         end

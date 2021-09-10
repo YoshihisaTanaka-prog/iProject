@@ -4,8 +4,15 @@
         <div class="chat">
             <% if c.sentUserId == "sapo-to" %>
                 <div class="my-chat">
-                    <div class="message"">
-                        <%= c.message %>
+                    <div class="message">
+                        <% messages = c.message.split(/\r\n|\r|\n/) %>
+                        <% messages.each_with_index do |m, i| %>
+                            <% if i == messages.length - 1 %>
+                                <%= m %>
+                            <% else %>
+                                <%= m %><br>
+                            <% end %>
+                        <% end %>
                     </div>
                     <p>
                         <%=  c.createDate %>
@@ -14,7 +21,14 @@
             <% else %>
                 <div class="your-chat">
                     <div class="message">
-                        <%= c.message %>
+                        <% messages = c.message.split(/\r\n|\r|\n/) %>
+                        <% messages.each_with_index do |m, i| %>
+                            <% if i == messages.length - 1 %>
+                                <%= m %>
+                            <% else %>
+                                <%= m %><br>
+                            <% end %>
+                        <% end %>
                     </div>
                     <p>
                         <%= @student.userName %><br>
