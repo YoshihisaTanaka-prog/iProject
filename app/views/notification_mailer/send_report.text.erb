@@ -29,7 +29,7 @@
 
 <% if !@report.fileNames.blank? %>
 授業の資料：
-<%= @report.fileNames.each do |f| %>
+<% @report.fileNames.each do |f| %>
     <%= "https://mbaas.api.nifcloud.com/2013-09-01/applications/LEaF9q0Coe9T8EYl/publicFiles/" + f + "\n"%>
 <% end %>
 <% end %>
