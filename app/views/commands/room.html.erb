@@ -38,7 +38,7 @@
         </div>
     <% end %>
     <%= form_tag autho_chat_command_send_path, class:"chat-form" do %>
-        <%= text_field_tag "message","", style:"width: 19vw;" %>
+        <%= text_area_tag "message", params["msg"], style:"width: 19vw;" %>
         <%= hidden_field_tag "chatRoomId", "user-" + @teacher.userId %>
         <%= hidden_field_tag "id", @teacher.objectId %>
         <%= submit_tag "送信", style:"width: 5vw;" %>

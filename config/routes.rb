@@ -85,7 +85,6 @@ Rails.application.routes.draw do
 
   # アプリとの通信用
   post 'app/user', to: 'app_users#user'
-  post 'app/domain', to: 'app_users#domain'
   post 'app/report/mail', to: 'app_users#report_mail'
   post 'app/report/object', to: 'app_users#report_object'
 
