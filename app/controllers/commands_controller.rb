@@ -50,6 +50,12 @@ class CommandsController < ApplicationController
         chat.message = params[:message]
         chat.chatRoomId = params[:chatRoomId]
 
+        t = User.find_by(role: 'teacher', parameter_id: params['id'])
+        if !t.blank?
+            t.last_sent_time = DateTime.now
+            t.save
+        end
+
         if chat.save
             redirect_to autho_chat_command_room_path(:id => params[:id])
         end

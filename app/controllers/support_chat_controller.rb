@@ -30,11 +30,13 @@ class SupportChatController < ApplicationController
                 c.save
             end
         end
+
         s = User.find_by(role: 'student', parameter_id: params['id'])
         if !s.blank?
             s.unread_count = 0
             s.save
         end
+        
     end
 
     def send_message
@@ -46,6 +48,12 @@ class SupportChatController < ApplicationController
         chat.message = params[:message]
         chat.chatRoomId = params[:chatRoomId]
 
+        s = User.find_by(role: 'student', parameter_id: params['id'])
+        if !s.blank?
+            s.last_sent_time = DateTime.now
+            s.save
+        end
+        
         if chat.save
             redirect_to autho_chat_support_room_path(:id => params[:id])
         end
