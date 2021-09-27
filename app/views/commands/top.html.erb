@@ -2,14 +2,14 @@
     <% if @num_of_student_messages == 0 %>
         <%= link_to "生徒へのサポート", autho_chat_support_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
     <% else %>
-        <%= link_to "生徒へのサポート" + "(" + @num_of_student_messages.to_string() + ")" , autho_chat_support_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
+        <%= link_to "生徒へのサポート" + "(" + @num_of_student_messages.to_s + ")" , autho_chat_support_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
     <% end %>
 </div>
 <div style="padding: 1em;">
     <% if @num_of_teacher_messages == 0 %>
         <%= link_to "教師への業務連絡", autho_chat_command_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
     <% else %>
-        <%= link_to "教師への業務連絡" + "(" + @num_of_teacher_messages.to_string() +")", autho_chat_command_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
+        <%= link_to "教師への業務連絡" + "(" + @num_of_teacher_messages.to_s +")", autho_chat_command_path, style: @concept_color + 'text-decoration: none; padding: 0.2em 1em;' %>
     <% end %>
 </div>
 <div style="padding: 1em;">
