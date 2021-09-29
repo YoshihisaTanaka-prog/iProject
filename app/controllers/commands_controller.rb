@@ -6,6 +6,17 @@ class CommandsController < ApplicationController
     layout 'chat', only: [:room]
 
     def top
+        @num_of_student_messages = 0
+        @num_of_teacher_messages = 0
+        users = User.all
+        users.each do |user|
+            case user.role
+            when 'student'
+                @num_of_student_messages += user.unread_count
+            when "teacher"
+                @num_of_teacher_messages += user.unread_count
+            end
+        end
     end
 
     def index
