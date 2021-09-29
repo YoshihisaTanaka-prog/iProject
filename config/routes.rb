@@ -83,6 +83,9 @@ Rails.application.routes.draw do
   post 'autho/limitation/addgroup', to: 'ca_limits#create'
   delete 'autho/limitation/deletegroup', to: 'ca_limits#delete'
 
+  # もしもの時に全データ（？）をエクセルファイルとしてダウンロードするためのパス
+  get 'autho/download', to: 'downloads#index'
+
   # アプリとの通信用
   post 'app/user', to: 'app_users#user'
   post 'app/report/mail', to: 'app_users#report_mail'

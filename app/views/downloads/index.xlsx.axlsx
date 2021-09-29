@@ -1,0 +1,105 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "admin") do |sheet|
+    data = Admin.all
+    columns = Admin.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "admin_chat") do |sheet|
+    data = AdminChat.all
+    columns = AdminChat.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "admin_group") do |sheet|
+    data = AdminGroup.all
+    columns = AdminGroup.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "group_admin") do |sheet|
+    data = GroupAdmin.all
+    columns = GroupAdmin.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "ca_list") do |sheet|
+    data = CaList.all
+    columns = CaList.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "ca_limit") do |sheet|
+    data = CaLimit.all
+    columns = CaLimit.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "user") do |sheet|
+    data = User.all
+    columns = User.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end
+
+wb.add_worksheet(name: "report") do |sheet|
+    data = Report.all
+    columns = Report.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end

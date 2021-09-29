@@ -32,6 +32,9 @@
             <li style="float: right; padding: 1rem;"><%= link_to "　管理者情報の編集　", edit_admin_registration_url, style: @base_color + 'text-decoration: none;' %></li>
             <% if admin_signed_in? %>
               <li style="float: right; padding: 1rem;"><%= link_to "　管理者用のトップ　", autho_path, style: @base_color + 'text-decoration: none;' %></li>
+              <% if current_admin.subadmin%>
+                <li style="float: right; padding: 1rem;"><%= link_to "　データのダウンロード　", autho_download_path(format: :xlsx), style: @base_color + 'text-decoration: none;' %></li>
+              <% end %>
             <% else %>
               <li style="float: right; padding: 1rem;"><%= link_to "　トップ　", root_path, style: @base_color + 'text-decoration: none;' %></li>
             <% end %>
