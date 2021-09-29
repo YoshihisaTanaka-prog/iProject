@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   # 都道府県のデータを管理するためのURL
   get 'autho/prefecture', to: 'regions#index'
 
-  # 教師の管理用（垢BANなど）用のURL
+  # 教師の管理用（垢BANなど）用のURL                                  (業務命令系統と統一したい)
   get 'autho/teacher', to: 'teachers#index'
   post 'autho/teacher/update', to: 'teachers#update'
 
@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get 'autho/limitation/edit', to: 'ca_lists#edit'
   patch 'ca_list', to: 'ca_lists#update'
   delete 'ca_lists', to: 'ca_lists#destroy'
+  # ページが存在しないことになっている。
   get 'autho/limitation/showgroup', to: 'ca_limits#index'
   get 'autho/limitation/addgroup', to: 'ca_limits#new'
   post 'autho/limitation/addgroup', to: 'ca_limits#create'

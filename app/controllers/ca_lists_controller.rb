@@ -8,7 +8,7 @@ class CaListsController < ApplicationController
         #mythreadのデータの全件取得
         @controllers = CaList.all.order(:controller_name).pluck(:controller_name).uniq
         if !params[:cont].blank?
-            @ca_lists = CaList.where(controller_name: params[:cont])
+            @ca_lists = CaList.where(controller_name: params[:cont]).order(:controller_name)
         else
             @ca_lists = CaList.all
         end
