@@ -14,12 +14,7 @@
 <hr>
 <div>
     <br>
-    <div style="float: left; width: 30vw;">
-        <%= form_tag autho_domain_path, method: :get do %>
-            <%= select_tag 'status', options_for_select([["全て",0],["未確認",1],["許可済",2],["禁止済",3]],params["status"]), include_blank: false %>
-            <%= submit_tag("選択") %>
-        <% end %>
-    </div>
+    <%= render "status" %>
     <div style="float: left; width: 30vw;">
         <%= form_tag autho_domain_path, method: :get, style:"float: left; width: 30vw;" do %>
             <%= text_field_tag 'cn', params['cn'] %>
@@ -29,27 +24,27 @@
     </div>
 </div><br><br>
 <hr>
+<%= paginate @collages unless @collages.blank? %>
 <table>
     <tr>
-        <th>No.</th><th>objectId</th><th>大学名（正式名称）</th><th>ドメイン</th><th>許可</th><th></th><th>状況</th>
+        <th>No.</th><th>大学名（正式名称）</th><th>ドメイン</th><th>許可</th><th></th><th>状況</th>
     </tr>
     <% i = 1 %>
     <% @objects.each do |o| %>
         <tr>
             <td style="text-align: right;"><%= i %>&nbsp;</td>
-            <td><%= o.objectId %></td>
             <td><button onclick="copyAndMove('<%= o.collage %>')"><%= o.collage %></button></td>
             <td><%= o.domain %></td>
             <% if o.checked %>
                 <% if o.parmitted %>
-                    <td style="text-align: center;"><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => false), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "許可中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => false, :page => params['page']), method: :post %></td>
                 <% else %>
-                    <td style="text-align: center;"><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => true), method: :post %></td>
+                    <td style="text-align: center;"><%= link_to "禁止中", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => o.collage, :parmitted => true, :page => params['page']), method: :post %></td>
                 <% end %>
                 <td><%= link_to "編集", autho_domain_edit_path(:id => o.objectId, :status => params['status'], :cn => o.collage) %></td><td>確認済</td>
             <% else %>
-                <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true), method: :post %>|
-                <%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false), method: :post %></td><td></td>
+                <td><%= link_to "許可", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => true, :page => params['page']), method: :post %>|
+                <%= link_to "禁止", autho_domain_change_path(:id => o.objectId, :status => params["status"], :cn => params["cn"], :parmitted => false, :page => params['page']), method: :post %></td><td></td>
                 <td style="color: red;">未確認</td>
             <% end %>
             
@@ -57,6 +52,7 @@
         <% i += 1 %>
     <% end %>
 </table>
+<%= paginate @collages unless @collages.blank? %>
 
 <script>
 

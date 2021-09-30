@@ -1,0 +1,23 @@
+<% if params["status"].blank? %>
+    <div style="float: left; width: 30vw;">
+        <select onChange="location.href=value;">
+            <option value="/autho/domain"> ---選択--- </option>
+            <option value="/autho/domain?status=-2"> 全て </option>
+            <option value="/autho/domain?status=-1"> 未認可ドメイン </option>
+            <option value="/autho/domain?status=0"> 作業前 </option>
+            <option value="/autho/domain?status=1"> 作業中 </option>
+            <option value="/autho/domain?status=2"> 作業完了（未確認） </option>
+            <option value="/autho/domain?status=3"> 確認済み </option>
+        </select>
+    </div>
+<% else %>
+    <div style="float: left; width: 30vw;">
+        <select onChange="location.href=value;">
+            <option value="/autho/domain"> ---選択--- </option>
+            <% array = ["全て", "未認可ドメイン", "作業前", "作業中", "作業完了（未確認）", "確認済み"] %>
+            <% for num in -2...3 %>
+            <option value="/autho/domain?status=<%= num %>"<%= "selected" if params["status"].to_i == num %>> <%= array[num+2] %> </option>
+            <% end %>
+        </select>
+    </div>
+<% end%>

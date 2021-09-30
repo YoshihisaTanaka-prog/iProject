@@ -103,3 +103,16 @@ wb.add_worksheet(name: "report") do |sheet|
         sheet.add_row row
     end
 end
+
+wb.add_worksheet(name: "collage_status") do |sheet|
+    data = CollageStatus.all
+    columns = CollageStatus.column_names
+    sheet.add_row columns
+    data.each do |d|
+        row = []
+        columns.each do |c|
+            row.push(d[c])
+        end
+        sheet.add_row row
+    end
+end

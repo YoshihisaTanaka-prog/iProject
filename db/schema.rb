@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_032704) do
+ActiveRecord::Schema.define(version: 2021_09_29_144723) do
 
   create_table "admin_chats", force: :cascade do |t|
     t.integer "autho_id"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2021_09_10_032704) do
     t.boolean "is_only_admin", default: false, null: false
     t.boolean "is_only_level", default: false, null: false
     t.integer "minimum_level", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "collage_statuses", force: :cascade do |t|
+    t.string "collage_name"
+    t.integer "status", default: 0, null: false
+    t.integer "creator_id", default: -1, null: false
+    t.integer "checker_id", default: -1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -120,7 +129,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_032704) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "parameter_id", default: "", null: false
     t.string "domain", default: "", null: false
-    t.datetime "last_sent_time", default: "2021-09-10 13:03:47", null: false
+    t.datetime "last_sent_time", default: "2021-09-10 03:31:00", null: false
     t.integer "unread_count", default: 0, null: false
   end
 

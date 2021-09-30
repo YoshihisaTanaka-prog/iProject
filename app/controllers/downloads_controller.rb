@@ -1,7 +1,7 @@
 class DownloadsController < ApplicationController
 
     def index
-        strong_limit
+        strongest_limit
     
         # 以下、追記
         respond_to do |format|

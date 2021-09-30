@@ -2,9 +2,25 @@
 
 <br><br>
 
+作業状況：
+<%= @status.status %>
+<% case @status.status %>
+<% when 0 %>
+    未作成
+<% when 1 %>
+    作業中（作業者：<%= @status.creator.name unless @status.creator.blank? %>）
+<% when 2 %> 
+    作業完了（未確認）（作業者：<%= @status.creator.name unless @status.creator.blank? %>）
+<% when 3 %>
+    確認済み（作業者：<%= @status.creator.name unless @status.creator.blank? %>）（確認者：<%= @status.checker.name unless @status.checker.blank? %>）
+<% end %>
+
+<br><br>
+
 <p style="color: red;"><%= params["msg"] %><p>
 <%= form_tag autho_domain_update_path(:status => params['status'], :cn => params["cn"]) do %>
     <%= hidden_field_tag "id", @id %>
+    <%= hidden_field_tag "old_collage", @collage %>
     <table>
         <tr>
             <th>ドメイン</th><th>大学名（正式名称）</th>

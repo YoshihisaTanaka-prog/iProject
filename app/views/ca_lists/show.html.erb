@@ -9,7 +9,7 @@
             <% @ca_list.name_list.each do |name| %>
                 <%= name %> ,
             <% end %>
-            <% if @ca_list.name_list.include?("権限レベルによる制限のみ") %>
+            <% if @ca_list.is_only_level %>
                 Lv<%= @ca_list.minimum_level %>
             <% end %>
         </td>
