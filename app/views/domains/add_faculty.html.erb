@@ -1,0 +1,20 @@
+<%= link_to "大学の編集ページへ", autho_domain_edit_path(:id => params['d_id'], :cn => params["cn"], :status => params['status']) %>
+<br><br>
+<h1><%= params['cn'] %></h1>
+
+<%= form_tag autho_domain_faculty_path do %>
+    学部(学府)名：
+    <%= text_field_tag "name" %>
+    <%= hidden_field_tag "d_id", params['d_id'] %>
+    <%= hidden_field_tag "cn", params['cn'] %>
+    <%= hidden_field_tag "status", params['status'] %>
+    <%= submit_tag "追加"%>
+<% end %>
+
+<% if !@collage_facultys.blank? %>
+    <table>
+        <% @collage_facultys.each do |faculty| %>
+            <tr><td><%= link_to faculty.facultyName, autho_domain_department_path(:d_id => params["d_id"], :status => params['status'], :cn => params["cn"], :fn => faculty.facultyName) %></td></tr>
+        <% end %>
+    </table>
+<% end %>

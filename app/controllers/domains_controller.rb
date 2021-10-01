@@ -93,7 +93,11 @@ class DomainsController < ApplicationController
         object = NCMB::DataStore.new "Domain"
         p_obj = NCMB::DataStore.new "CollegePrefecture"
         s_obj = NCMB::DataStore.new "ShortenCollageName"
+        f_obj = NCMB::DataStore.new "CollageFaculty"
         if params["id"].blank?
+            if params['dom'].blank?
+                redirect_to autho_domain_path
+            end
             @objects = object.where("domain", params["dom"])
         else
             @objects = object.where("objectId", params["id"])
@@ -104,6 +108,7 @@ class DomainsController < ApplicationController
         @collage = obj.collage
         @prefecture = p_obj.where("collageName", @collage)
         @shorten = s_obj.where("collageName", @collage)
+        @faculty = f_obj.where("collageName", @collage)
         # 編集状況の確認
         c_status = CollageStatus.where(collage_name: obj.collage)
         if c_status.blank?
@@ -138,18 +143,7 @@ class DomainsController < ApplicationController
         cp = object.new(collageName: params['c'], prefecture: params['p'])
         cp.acl = nil
         cp.save
-        c = CollageStatus.where(collage_name: params['c']).first
-        if c.blank?
-            c = CollageStatus.new
-            c.collage_name = params['c']
-            c.creator_id = current_admin.id
-            c.status = 1
-            c.save
-        elsif c.creator_id == -1
-            c.creator_id = current_admin.id
-            c.status = 1
-            c.save
-        end
+        change_status(params["c"],1)
         redirect_to autho_domain_edit_path(:id => params['id'], :status => params['status'], :cn => params["cn"])
     end
 
@@ -179,19 +173,8 @@ class DomainsController < ApplicationController
                     s.save
                 end
             end
-            c = CollageStatus.where(collage_name: params['cn']).first
-            if c.blank?
-                c = CollageStatus.new
-                c.collage_name = params['cn']
-                c.creator_id = current_admin.id
-                c.status = 1
-                c.save
-            elsif c.creator_id == -1
-                c.creator_id = current_admin.id
-                c.status = 1
-                c.save
-            end
-            redirect_to autho_domain_edit_path(:id => params['d_id'], :status => params['status'], :cn => params["cn"])
+            change_status(params["cn"],1)
+            redirect_to autho_domain_edit_path(:id => params['d_id'], :cn => params["cn"], :status => params['status'])
         else   
             if params["s_id"].blank?
                 @c = d_obj.where("objectId", params['d_id']).first.collage
@@ -200,6 +183,49 @@ class DomainsController < ApplicationController
                 @obj = s_obj.where("objectId", params['s_id']).first
             end
         end
+    end
+
+    def add_faculty
+        object = NCMB::DataStore.new "CollageFaculty"
+        if request.post?
+            collage_faculty = object.new(collageName: params['cn'], facultyName: params['name'])
+            collage_faculty.acl = nil
+            collage_faculty.save
+            change_status(params["cn"],1)
+            redirect_to autho_domain_department_path(:d_id => params['d_id'], :cn => params["cn"], :fn => params['name'], :status => params['status'])
+        else
+            @collage_facultys = object.equalTo("collageName", params['cn'])
+        end
+    end
+
+    def add_department
+        cd_obj = NCMB::DataStore.new "Department"
+        if request.post?
+            dep = cd_obj.new(collageFacultyId: params['cf_id'],departmentName: params['name'])
+            dep.acl = nil
+            dep.save
+            redirect_to autho_domain_department_path(:d_id => params['d_id'], :cn => params["cn"], :fn => params['fn'], :status => params['status'])
+        else
+            cf_obj = NCMB::DataStore.new "CollageFaculty"
+            @collage_facultys = cf_obj.equalTo("collageName", params["cn"]).equalTo("facultyName", params["fn"])
+            if @collage_facultys.blank?
+                redirect_to autho_domain_faculty_path(:d_id => params['d_id'], :cn => params["cn"], :status => params['status'])
+            else
+                @cf_id = @collage_facultys.first.objectId
+                @collage_departments = cd_obj.equalTo("collageFacultyId", @cf_id)
+            end
+        end
+    end
+
+    def finish_create
+        change_status(params["cn"],2)
+        redirect_to autho_domain_edit_path(:cn => params["cn"], :id => params["id"], :status => params['status'])
+    end
+
+    def finish_check
+        strongest_limit
+        change_status(params["cn"],3)
+        redirect_to autho_domain_edit_path(:cn => params["cn"], :id => params["id"], :status => params['status'])
     end
 
     def update
@@ -222,6 +248,47 @@ class DomainsController < ApplicationController
             end
         end
         redirect_to autho_domain_path(:status => params["status"], :cn => params["collage"])
+    end
+
+    # 圧縮用関数
+
+    def change_status(collage_name, status_num)
+        cs = CollageStatus.where(collage_name: collage_name).first
+        if cs.blank?
+            cs = CollageStatus.new
+            cs.collage_name = collage_name
+            case status_num
+            when 1
+                cs.creator_id = current_admin.id
+            when 2
+                cs.creator_id = current_admin.id
+            when 3
+                cs.creator_id = current_admin.id
+                cs.checker_id = current_admin.id
+            end
+            cs.status = status_num
+            cs.save
+        else
+            case status_num
+            when 1
+                if cs.creator_id == -1 
+                    cs.creator_id = current_admin.id
+                    cs.status = status_num
+                    cs.save
+                end
+            when 2
+                if cs.status == 1 && cs.creator_id == current_admin.id
+                    cs.status = status_num
+                    cs.save
+                end
+            when 3
+                if cs.status == 2  
+                    cs.checker_id = current_admin.id
+                    cs.status = status_num
+                    cs.save
+                end
+            end
+        end
     end
 
 end

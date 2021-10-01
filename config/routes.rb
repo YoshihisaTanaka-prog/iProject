@@ -26,6 +26,12 @@ Rails.application.routes.draw do
   post 'autho/domain/addpre', to: 'domains#add_prefecture'
   get 'autho/domain/shorten', to: 'domains#add_shorten'
   post 'autho/domain/shorten', to: 'domains#add_shorten'
+  get 'autho/domain/faculty', to: 'domains#add_faculty'
+  post 'autho/domain/faculty', to: 'domains#add_faculty'
+  get 'autho/domain/department', to: 'domains#add_department'
+  post 'autho/domain/department', to: 'domains#add_department'
+  post 'autho/domain/created', to: 'domains#finish_create'
+  post 'autho/domain/checked', to: 'domains#finish_check'
 
   # 都道府県のデータを管理するためのURL
   get 'autho/prefecture', to: 'regions#index'
