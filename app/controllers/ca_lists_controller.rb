@@ -10,7 +10,7 @@ class CaListsController < ApplicationController
         if !params[:cont].blank?
             @ca_lists = CaList.where(controller_name: params[:cont])
         else
-            @ca_lists = CaList.all
+            @ca_lists = CaList.all.order(:controller_name)
         end
     end
 

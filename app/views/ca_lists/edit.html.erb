@@ -4,6 +4,7 @@
     <%= text_field_tag :controller_name, @ca_list.controller_name %> <br>
     <%= text_field_tag :action_name, @ca_list.action_name %> <br>
     <%= text_field_tag :path_name, @ca_list.path_name %> <br>
+    保存データをを反映させること！。 (ca_lists#edit)
     <%= select_tag :option, options_for_select([["デフォルト", ""],["権限レベルのみで制限","level"],["準最高権限以上","subadmin"],["最高権限のみ","admin"]]) %><br>
     <%= number_field_tag :level, @ca_list.minimum_level %><br>
     <%= submit_tag "追加" %>

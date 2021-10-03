@@ -2,11 +2,15 @@
 <h3>メニューを選択</h3>
 <select onChange="location.href=value;">
     <% if controller_name == "edits" %>
-        <option value="/autho"> ---選択--- </option>
+        <option value="/autho" selected> ---選択--- </option>
+        <%= @options.each do |o| %>
+            <option value=<%= o[1] %>><%= o[0]%></option>
+        <% end %>
+    <% else %>
+        <%= @options.each do |o| %>
+            <option value=<%= o[1] %><%= " selected" if controller_name == o[2] %>><%= o[0]%></option>
+        <% end %>
     <% end %>
-<%= @options.each do |o| %>
-    <option value=<%= o[1] %><%= " selected" if controller_name == o[2] %>><%= o[0]%></option>
-<% end %>
 </select>
 </center>
 <hr>

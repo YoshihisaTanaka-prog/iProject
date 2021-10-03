@@ -26,11 +26,17 @@ Rails.application.routes.draw do
   post 'autho/domain/addpre', to: 'domains#add_prefecture'
   get 'autho/domain/shorten', to: 'domains#add_shorten'
   post 'autho/domain/shorten', to: 'domains#add_shorten'
+  get 'autho/domain/faculty', to: 'domains#add_faculty'
+  post 'autho/domain/faculty', to: 'domains#add_faculty'
+  get 'autho/domain/department', to: 'domains#add_department'
+  post 'autho/domain/department', to: 'domains#add_department'
+  post 'autho/domain/created', to: 'domains#finish_create'
+  post 'autho/domain/checked', to: 'domains#finish_check'
 
   # 都道府県のデータを管理するためのURL
   get 'autho/prefecture', to: 'regions#index'
 
-  # 教師の管理用（垢BANなど）用のURL
+  # 教師の管理用（垢BANなど）用のURL                                  (業務命令系統と統一したい)
   get 'autho/teacher', to: 'teachers#index'
   post 'autho/teacher/update', to: 'teachers#update'
 
@@ -77,10 +83,14 @@ Rails.application.routes.draw do
   get 'autho/limitation/edit', to: 'ca_lists#edit'
   patch 'ca_list', to: 'ca_lists#update'
   delete 'ca_lists', to: 'ca_lists#destroy'
+  # ページが存在しないことになっている。
   get 'autho/limitation/showgroup', to: 'ca_limits#index'
   get 'autho/limitation/addgroup', to: 'ca_limits#new'
   post 'autho/limitation/addgroup', to: 'ca_limits#create'
   delete 'autho/limitation/deletegroup', to: 'ca_limits#delete'
+
+  # もしもの時に全データ（？）をエクセルファイルとしてダウンロードするためのパス
+  get 'autho/download', to: 'downloads#index'
 
   # アプリとの通信用
   post 'app/user', to: 'app_users#user'

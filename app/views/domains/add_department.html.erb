@@ -1,0 +1,22 @@
+<%= link_to "学部一覧へ", autho_domain_faculty_path(:d_id => params["d_id"], :cn => params["cn"], :status => params['status']) %>
+<br><br>
+<h1><%= params['cn'] %>：<%= params['fn'] %></h1>
+
+<%= form_tag autho_domain_department_path do %>
+    学科名など：
+    <%= text_field_tag "name" %>
+    <%= hidden_field_tag "d_id", params['d_id'] %>
+    <%= hidden_field_tag "cn", params['cn'] %>
+    <%= hidden_field_tag "fn", params['fn'] %>
+    <%= hidden_field_tag "cf_id", @cf_id %>
+    <%= hidden_field_tag "status", params['status'] %>
+    <%= submit_tag "追加"%>
+<% end %>
+
+<% if !@collage_departments.blank? %>
+    <table>
+        <% @collage_departments.each do |department| %>
+            <tr><td><%= department.departmentName %></td></tr>
+        <% end %>
+    </table>
+<% end %>

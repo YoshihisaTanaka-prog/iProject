@@ -2,9 +2,42 @@
 
 <br><br>
 
+作業状況：
+<% case @status.status %>
+<% when 0 %>
+    未作成
+<% when 1 %>
+    作業中（作業者：<%= @status.creator.name unless @status.creator.blank? %>）
+    <% if !@status.creator.blank? %>
+        <% if @status.creator_id == current_admin.id %>
+            <%= form_tag autho_domain_created_path do %>
+                <%= hidden_field_tag "cn", params['cn'] %>
+                <%= hidden_field_tag "id", @id %>
+                <%= hidden_field_tag "status", params['status'] %>
+                <%= submit_tag "作業完了", data: { confirm: '本当に作業完了しましたか？' } %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% when 2 %> 
+    作業完了（未確認）（作業者：<%= @status.creator.name unless @status.creator.blank? %>）
+    <% if current_admin.subadmin %>
+            <%= form_tag autho_domain_checked_path do %>
+                <%= hidden_field_tag "cn", params['cn'] %>
+                <%= hidden_field_tag "id", @id %>
+                <%= hidden_field_tag "status", params['status'] %>
+                <%= submit_tag "確認", data: { confirm: '本当に確認しましたか？' } %>
+            <% end %>
+    <% end %>
+<% when 3 %>
+    確認済み（作業者：<%= @status.creator.name unless @status.creator.blank? %>）（確認者：<%= @status.checker.name unless @status.checker.blank? %>）
+<% end %>
+
+<br><br>
+
 <p style="color: red;"><%= params["msg"] %><p>
 <%= form_tag autho_domain_update_path(:status => params['status'], :cn => params["cn"]) do %>
     <%= hidden_field_tag "id", @id %>
+    <%= hidden_field_tag "old_collage", @collage %>
     <table>
         <tr>
             <th>ドメイン</th><th>大学名（正式名称）</th>
@@ -19,24 +52,38 @@
 
 <br><br>
 
-<div style="float: left; width: 40vw;">
+<div style="float: left; width: 30vw;">
+    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id, :cn => params["cn"], :status => params['status']) %><br><br>
     <table>
         <% @prefecture.each do |p| %>
-            <tr><td><%= link_to p.prefecture, autho_domain_select_path(:p => p.objectId, :status => params['status'], :cn => params["cn"])%></td></tr>
+            <tr><td><%= p.prefecture %></td></tr>
         <% end %>
     </table>
 
-    <br><br>
-    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id, :status => params['status'], :cn => params["cn"]) %>
+    <br>
+    <%= link_to "都道府県を追加", autho_domain_select_path(:d => @id, :cn => params["cn"], :status => params['status']) %>
 </div>
 
-<div style="float: left; width: 40vw;">
+<div style="float: left; width: 30vw;">
+    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id, :cn => params["cn"], :status => params['status']) %><br><br>
     <table>
         <% @shorten.each do |s| %>
-            <tr><td><%= link_to s.shortenName, autho_domain_shorten_path(:d_id => @id ,:s_id => s.objectId, :status => params['status'], :cn => params["cn"])%></td></tr>
+            <tr><td><%= link_to s.shortenName, autho_domain_shorten_path(:d_id => @id ,:s_id => s.objectId, :cn => params["cn"], :status => params['status'])%></td></tr>
         <% end %>
     </table>
 
-    <br><br>
-    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id, :status => params['status'], :cn => params["cn"]) %>
+    <br>
+    <%= link_to "略称を追加", autho_domain_shorten_path(:d_id => @id, :cn => params["cn"], :status => params['status']) %>
+</div>
+
+<div style="float: left; width: 30vw;">
+    <%= link_to "学部(府)情報を追加", autho_domain_faculty_path(:d_id => @id, :cn => params["cn"], :status => params['status']) %><br><br>
+    <table>
+        <% @faculty.each do |f| %>
+            <tr><td><%= link_to f.facultyName, autho_domain_department_path(:d_id => @id, :cn => params["cn"], :fn => f.facultyName, :status => params['status']) %></td></tr>
+        <% end %>
+    </table>
+
+    <br>
+    <%= link_to "学部(府)情報を追加", autho_domain_faculty_path(:d_id => @id, :cn => params["cn"], :status => params['status']) %>
 </div>

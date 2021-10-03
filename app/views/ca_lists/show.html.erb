@@ -9,7 +9,9 @@
             <% @ca_list.name_list.each do |name| %>
                 <%= name %> ,
             <% end %>
-            Lv<%= @ca_list.minimum_level %>
+            <% if @ca_list.is_only_level %>
+                Lv<%= @ca_list.minimum_level %>
+            <% end %>
         </td>
         <td><%= link_to "編集ページへ", autho_limitation_edit_path(:id => @ca_list.id) %></td>
     </tr>
